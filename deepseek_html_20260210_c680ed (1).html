@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Político: ¿A quién voy a votar?</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .description {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+        
+        .test-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+        
+        .question {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .question:last-child {
+            border-bottom: none;
+        }
+        
+        .question h3 {
+            color: #2a5298;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px 15px;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            border-left: 4px solid #ddd;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        
+        .option:hover {
+            background-color: #edf2f7;
+            transform: translateX(5px);
+        }
+        
+        .option.selected {
+            background-color: #e6f0ff;
+            border-left-color: #2a5298;
+        }
+        
+        .option input {
+            margin-right: 12px;
+            margin-top: 3px;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        button {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        #calculate {
+            background-color: #2a5298;
+            color: white;
+        }
+        
+        #calculate:hover {
+            background-color: #1e3c72;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(42, 82, 152, 0.3);
+        }
+        
+        #reset {
+            background-color: #f1f5f9;
+            color: #64748b;
+        }
+        
+        #reset:hover {
+            background-color: #e2e8f0;
+            transform: translateY(-3px);
+        }
+        
+        .results-container {
+            display: none;
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            margin-top: 20px;
+        }
+        
+        .results-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .result-party {
+            font-size: 1.8rem;
+            font-weight: bold;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: white;
+        }
+        
+        .party-logos {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .logo-item {
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+        
+        .logo-item.winner {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .Sumar-logo { background-color: #ff6b6b; }
+        .PSOE-logo { background-color: #e30613; }
+        .PP-logo { background-color: #1e81c4; }
+        .Vox-logo { background-color: #63b1e3; }
+        
+        .scores {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .score-item {
+            flex: 1;
+            min-width: 180px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .score-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        
+        .party-info {
+            background-color: #f8fafc;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .party-info h3 {
+            margin-bottom: 15px;
+            color: #2a5298;
+        }
+        
+        .party-info ul {
+            padding-left: 20px;
+        }
+        
+        .party-info li {
+            margin-bottom: 10px;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e2e8f0;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 5px;
+        }
+        
+        .disclaimer {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        
+        .question-counter {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #2a5298;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #64748b;
+            font-size: 0.9rem;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .scores {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .party-logos {
+                gap: 10px;
+            }
+            
+            .logo-circle {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Test Político: ¿A quién voy a votar?</h1>
+        <p class="description">Responde a las 30 preguntas y descubre con qué partido político español tienes más afinidad ideológica.</p>
+    </header>
+    
+    <div class="disclaimer">
+        <strong>Importante:</strong> Las respuestas no muestran a qué partido corresponden. Selecciona la opción que más se acerque a tu opinión personal sin dejarte influir por preferencias partidistas.
+    </div>
+    
+    <div class="test-container">
+        <form id="politicalTest">
+            <div class="question-counter">Pregunta <span id="currentQuestion">1</span> de 30</div>
+            
+            <!-- Pregunta 1 -->
+            <div class="question">
+                <h3>1. La sanidad debería ser:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q1" value="A" required>
+                        Pública, blindada por ley y con mayor financiación
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q1" value="B">
+                        Pública, universal, con tiempos máximos de espera garantizados
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q1" value="C">
+                        Pública con colaboración privada y mayor eficiencia
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q1" value="D">
+                        Con más conciertos con la sanidad privada para reducir listas de espera
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 2 -->
+            <div class="question">
+                <h3>2. Sobre la educación:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q2" value="A" required>
+                        Pública, gratuita y de calidad, con financiación suficiente
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q2" value="B">
+                        Pública y de calidad, con especial atención a la equidad
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q2" value="C">
+                        Debe haber libertad de elección entre centros públicos y concertados
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q2" value="D">
+                        Debe promoverse la educación concertada y privada como alternativa
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 3 -->
+            <div class="question">
+                <h3>3. Sobre la gestión de la vivienda:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q3" value="A" required>
+                        Se necesitan más viviendas públicas en alquiler asequible
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q3" value="B">
+                        Debe incentivarse la construcción de vivienda protegida
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q3" value="C">
+                        El mercado debe regularse con incentivos fiscales
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q3" value="D">
+                        Menor intervención estatal para dinamizar el mercado
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 4 -->
+            <div class="question">
+                <h3>4. Sobre los impuestos:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q4" value="A" required>
+                        Sistema fiscal progresivo que grave más a quien más tiene
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q4" value="B">
+                        Mantener impuestos progresivos con ajustes
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q4" value="C">
+                        Reducir impuestos para estimular la economía
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q4" value="D">
+                        Reducciones fiscales generalizadas
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 5 -->
+            <div class="question">
+                <h3>5. Sobre la inmigración:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q5" value="A" required>
+                        Políticas de acogida integrales y regularización
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q5" value="B">
+                        Gestión ordenada con cuotas y políticas de integración
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q5" value="C">
+                        Control de fronteras y acuerdo con países de origen
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q5" value="D">
+                        Fronteras cerradas y deportaciones inmediatas
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 6 -->
+            <div class="question">
+                <h3>6. Sobre el cambio climático:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q6" value="A" required>
+                        Inversión masiva en energías renovables y economía verde
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q6" value="B">
+                        Cumplir objetivos europeos con transición justa
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q6" value="C">
+                        Transición gradual que no dañe la competitividad
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q6" value="D">
+                        Priorizar el crecimiento económico sobre restricciones ambientales
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 7 -->
+            <div class="question">
+                <h3>7. Sobre el aborto:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q7" value="A" required>
+                        Derecho garantizado en la sanidad pública
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q7" value="B">
+                        Mantener la ley actual sin retrocesos
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q7" value="C">
+                        Modificar la ley con consentimiento paterno para menores
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q7" value="D">
+                        Restringir o eliminar el derecho al aborto
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 8 -->
+            <div class="question">
+                <h3>8. Sobre las pensiones:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q8" value="A" required>
+                        Mejorar pensiones y garantizar su sostenibilidad
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q8" value="B">
+                        Mantener el poder adquisitivo y revalorización anual
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q8" value="C">
+                        Ajustes para garantizar la sostenibilidad del sistema
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q8" value="D">
+                        Fomentar planes privados de pensiones complementarios
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 9 -->
+            <div class="question">
+                <h3>9. Sobre el Estado de las Autonomías:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q9" value="A" required>
+                        Estado federal que reconozca la plurinacionalidad
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q9" value="B">
+                        Mantener el modelo autonómico actual
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q9" value="C">
+                        Reforzar la unidad de España, limitar competencias
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q9" value="D">
+                        Eliminar las autonomías, estado centralizado
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 10 -->
+            <div class="question">
+                <h3>10. Sobre la política energética:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q10" value="A" required>
+                        Empresa pública de energía renovable
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q10" value="B">
+                        Transición energética con mix renovable
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q10" value="C">
+                        Mix energético diversificado, incluida nuclear
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q10" value="D">
+                        No cerrar centrales nucleares, priorizar competitividad
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 11 -->
+            <div class="question">
+                <h3>11. Sobre la justicia:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q11" value="A" required>
+                        Garantizar independencia y medios suficientes
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q11" value="B">
+                        Reformas para agilizar y modernizar la justicia
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q11" value="C">
+                        Modificar leyes para endurecer penas
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q11" value="D">
+                        Endurecimiento de penas, especialmente para terrorismo
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 12 -->
+            <div class="question">
+                <h3>12. Sobre el sistema laboral:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q12" value="A" required>
+                        Reducción progresiva de la jornada laboral
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q12" value="B">
+                        Mantener reforma laboral con ajustes
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q12" value="C">
+                        Flexibilizar mercado laboral para crear empleo
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q12" value="D">
+                        Mayor flexibilidad, reducir costes de despido
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 13 -->
+            <div class="question">
+                <h3>13. Sobre la vivienda vacía:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q13" value="A" required>
+                        Impuesto a viviendas vacías para incentivar alquiler
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q13" value="B">
+                        Incentivos fiscales para poner viviendas en alquiler
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q13" value="C">
+                        No intervenir en propiedad privada
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q13" value="D">
+                        Defender la propiedad privada sin restricciones
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 14 -->
+            <div class="question">
+                <h3>14. Sobre la monarquía:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q14" value="A" required>
+                        Referéndum para decidir entre monarquía o república
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q14" value="B">
+                        Mantener la monarquía constitucional
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q14" value="C">
+                        Defender la monarquía como símbolo de unidad
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q14" value="D">
+                        Monarquía como garante de la unidad de España
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 15 -->
+            <div class="question">
+                <h3>15. Sobre la igualdad de género:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q15" value="A" required>
+                        Feminismo como eje transversal de políticas
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q15" value="B">
+                        Ley de igualdad, políticas contra violencia machista
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q15" value="C">
+                        Igualdad real, eliminar ideología de género
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q15" value="D">
+                        Eliminar leyes de género, familia tradicional
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 16 -->
+            <div class="question">
+                <h3>16. Sobre la tauromaquia:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q16" value="A" required>
+                        Eliminar subvenciones y considerar prohibición
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q16" value="B">
+                        Considerarla patrimonio cultural
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q16" value="C">
+                        Defender como tradición y patrimonio cultural
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q16" value="D">
+                        Defender y promover como tradición española
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 17 -->
+            <div class="question">
+                <h3>17. Sobre la política exterior:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q17" value="A" required>
+                        Priorizar derechos humanos en política exterior
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q17" value="B">
+                        Alineación con UE y mantener relación con EE.UU.
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q17" value="C">
+                        Relación privilegiada con EE.UU. y reforzar OTAN
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q17" value="D">
+                        Soberanía nacional frente a organizaciones globalistas
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 18 -->
+            <div class="question">
+                <h3>18. Sobre la investigación científica:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q18" value="A" required>
+                        Inversión pública en I+D+i como prioridad
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q18" value="B">
+                        Incrementar progresivamente la financiación
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q18" value="C">
+                        Colaboración público-privada en investigación
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q18" value="D">
+                        Investigación con objetivos estratégicos nacionales
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 19 -->
+            <div class="question">
+                <h3>19. Sobre la ley de memoria histórica:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q19" value="A" required>
+                        Profundizar en la recuperación de la memoria histórica
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q19" value="B">
+                        Mantener y aplicar la ley actual
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q19" value="C">
+                        Eliminar la politización de la memoria histórica
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q19" value="D">
+                        Derogar la ley de memoria histórica
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 20 -->
+            <div class="question">
+                <h3>20. Sobre el transporte público:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q20" value="A" required>
+                        Transporte público asequible y de calidad
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q20" value="B">
+                        Bonificaciones y descuentos en transporte
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q20" value="C">
+                        Mejora de infraestructuras, equilibrio tarifario
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q20" value="D">
+                        Que sea autofinanciable, sin subvenciones excesivas
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 21 -->
+            <div class="question">
+                <h3>21. Sobre la eutanasia:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q21" value="A" required>
+                        Defender y aplicar la ley de eutanasia
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q21" value="B">
+                        Mantener la ley de eutanasia actual
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q21" value="C">
+                        Revisar o limitar la ley de eutanasia
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q21" value="D">
+                        Derogar la ley de eutanasia
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 22 -->
+            <div class="question">
+                <h3>22. Sobre la deuda pública:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q22" value="A" required>
+                        Flexibilizar normas de déficit europeas
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q22" value="B">
+                        Reducción progresiva cumpliendo normas europeas
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q22" value="C">
+                        Reducción drástica del déficit y deuda
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q22" value="D">
+                        Reducción de gasto público para bajar deuda
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 23 -->
+            <div class="question">
+                <h3>23. Sobre los derechos LGTBIQ+:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q23" value="A" required>
+                        Ley trans estatal, protección contra discriminación
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q23" value="B">
+                        Defender leyes existentes, aprobar ley trans
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q23" value="C">
+                        No discriminación pero sin leyes específicas
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q23" value="D">
+                        Derogar leyes LGTBIQ+, promover familia tradicional
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 24 -->
+            <div class="question">
+                <h3>24. Sobre la legalización de drogas:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q24" value="A" required>
+                        Regulación del cannabis para uso terapéutico y recreativo
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q24" value="B">
+                        Cannabis terapéutico, estudiar regulación recreativo
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q24" value="C">
+                        Mantener prohibición actual
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q24" value="D">
+                        Tolerancia cero con cualquier droga
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 25 -->
+            <div class="question">
+                <h3>25. Sobre la agricultura:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q25" value="A" required>
+                        Transición agroecológica, limitar macrogranjas
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q25" value="B">
+                        Equilibrio entre productividad y sostenibilidad
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q25" value="C">
+                        Apoyar competitividad del sector agrícola
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q25" value="D">
+                        Defender agricultura tradicional y competitiva
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 26 -->
+            <div class="question">
+                <h3>26. Sobre la política de seguridad:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q26" value="A" required>
+                        Policía de proximidad, prevenir antes que reprimir
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q26" value="B">
+                        Modernizar fuerzas de seguridad, equilibrio
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q26" value="C">
+                        Más medios para policías, endurecer penas
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q26" value="D">
+                        Mano dura, más policías, menores juzgados como adultos
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 27 -->
+            <div class="question">
+                <h3>27. Sobre la cultura:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q27" value="A" required>
+                        Aumentar financiación pública de la cultura
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q27" value="B">
+                        Apoyar sector cultural como motor económico
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q27" value="C">
+                        Mecenazgo y colaboración público-privada
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q27" value="D">
+                        Cultura que promueva valores patrios y tradicionales
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 28 -->
+            <div class="question">
+                <h3>28. Sobre la España vaciada:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q28" value="A" required>
+                        Plan integral contra la despoblación rural
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q28" value="B">
+                        Inversiones en infraestructuras y servicios rurales
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q28" value="C">
+                        Incentivos fiscales para repoblar zonas rurales
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q28" value="D">
+                        Apoyar a los autónomos y emprendedores rurales
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 29 -->
+            <div class="question">
+                <h3>29. Sobre la laicidad del Estado:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q29" value="A" required>
+                        Estado laico, eliminar privilegios Iglesia Católica
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q29" value="B">
+                        Estado aconfesional, revisar acuerdos con la Iglesia
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q29" value="C">
+                        Mantener acuerdos actuales con la Iglesia Católica
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q29" value="D">
+                        Defender la influencia de la Iglesia en la sociedad
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 30 -->
+            <div class="question">
+                <h3>30. Sobre el futuro de la UE:</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q30" value="A" required>
+                        UE federal, más integración política y social
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q30" value="B">
+                        Profundizar en integración europea
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q30" value="C">
+                        Mantener UE actual, defender intereses españoles
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q30" value="D">
+                        Recuperar soberanía nacional de Bruselas
+                    </label>
+                </div>
+            </div>
+            
+            <div class="buttons">
+                <button type="button" id="calculate">Ver resultados</button>
+                <button type="reset" id="reset">Reiniciar test</button>
+            </div>
+        </form>
+    </div>
+    
+    <div class="results-container" id="results">
+        <div class="results-header">
+            <h2>Tus resultados:</h2>
+        </div>
+        
+        <div id="resultParty" class="result-party"></div>
+        
+        <div class="party-logos" id="partyLogos"></div>
+        
+        <h3>Puntuación por partido:</h3>
+        <div class="scores" id="scoresContainer"></div>
+        
+        <div class="party-info">
+            <h3>Breve descripción de los partidos:</h3>
+            <ul>
+                <li><strong>Sumar</strong>: Coalición de izquierdas. Propone blindar la sanidad pública, aumentar su financiación y acabar con la precariedad laboral.</li>
+                <li><strong>PSOE</strong>: Centro-izquierda. Defiende sanidad pública universal, estado del bienestar y políticas sociales progresistas.</li>
+                <li><strong>PP</strong>: Centro-derecha. Apuesta por colaboración público-privada, reducción de impuestos y políticas de seguridad.</li>
+                <li><strong>Vox</strong>: Derecha conservadora. Prioriza seguridad nacional, unidad de España, y políticas de control migratorio.</li>
+            </ul>
+            <p><em>Nota: Este test es orientativo y simplifica posiciones políticas complejas. Te recomendamos informarte directamente de los programas electorales.</em></p>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Test político desarrollado con fines educativos. Las respuestas están basadas en posiciones generales de los partidos.</p>
+        <p>© 2023 - Todos los derechos reservados</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const calculateButton = document.getElementById('calculate');
+            const resetButton = document.getElementById('reset');
+            const resultsContainer = document.getElementById('results');
+            const resultParty = document.getElementById('resultParty');
+            const scoresContainer = document.getElementById('scoresContainer');
+            const partyLogos = document.getElementById('partyLogos');
+            const options = document.querySelectorAll('.option');
+            const currentQuestionSpan = document.getElementById('currentQuestion');
+            
+            // Mapeo de respuestas a partidos (A=Sumar, B=PSOE, C=PP, D=Vox)
+            const answerMapping = {};
+            for (let i = 1; i <= 30; i++) {
+                answerMapping['q' + i] = { 
+                    'A': 'Sumar', 
+                    'B': 'PSOE', 
+                    'C': 'PP', 
+                    'D': 'Vox' 
+                };
+            }
+            
+            // Colores para cada partido
+            const partyColors = {
+                'Sumar': '#ff6b6b',
+                'PSOE': '#e30613',
+                'PP': '#1e81c4',
+                'Vox': '#63b1e3'
+            };
+            
+            // Nombres completos de los partidos
+            const partyNames = {
+                'Sumar': 'Sumar',
+                'PSOE': 'PSOE',
+                'PP': 'Partido Popular',
+                'Vox': 'Vox'
+            };
+            
+            // Iniciales para los logos
+            const partyInitials = {
+                'Sumar': 'S',
+                'PSOE': 'P',
+                'PP': 'PP',
+                'Vox': 'V'
+            };
+            
+            // Añadir interactividad a las opciones
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Desmarcar todas las opciones en esta pregunta
+                    const questionDiv = this.closest('.question');
+                    questionDiv.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Marcar esta opción como seleccionada
+                    this.classList.add('selected');
+                    
+                    // Marcar el radio button
+                    const radioInput = this.querySelector('input[type="radio"]');
+                    if (radioInput) {
+                        radioInput.checked = true;
+                    }
+                });
+            });
+            
+            // Actualizar contador de preguntas respondidas
+            function updateQuestionCounter() {
+                let answered = 0;
+                for (let i = 1; i <= 30; i++) {
+                    const questionName = 'q' + i;
+                    const selectedOption = document.querySelector(`input[name="${questionName}"]:checked`);
+                    if (selectedOption) {
+                        answered++;
+                    }
+                }
+                currentQuestionSpan.textContent = answered;
+            }
+            
+            // Añadir evento a todos los radio buttons para actualizar contador
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', updateQuestionCounter);
+            });
+            
+            calculateButton.addEventListener('click', function() {
+                // Verificar que todas las preguntas estén contestadas
+                let allAnswered = true;
+                const totalQuestions = 30;
+                
+                for (let i = 1; i <= totalQuestions; i++) {
+                    const questionName = 'q' + i;
+                    const selectedOption = document.querySelector(`input[name="${questionName}"]:checked`);
+                    if (!selectedOption) {
+                        allAnswered = false;
+                        // Resaltar preguntas no contestadas
+                        const questionDiv = document.querySelector(`input[name="${questionName}"]`).closest('.question');
+                        questionDiv.style.backgroundColor = '#fff0f0';
+                        questionDiv.style.borderLeftColor = '#e30613';
+                        setTimeout(() => {
+                            questionDiv.style.backgroundColor = '';
+                            questionDiv.style.borderLeftColor = '';
+                        }, 2000);
+                    }
+                }
+                
+                if (!allAnswered) {
+                    alert(`Por favor, responde todas las ${totalQuestions} preguntas antes de ver los resultados.`);
+                    return;
+                }
+                
+                // Calcular resultados
+                const scores = {
+                    'Sumar': 0,
+                    'PSOE': 0,
+                    'PP': 0,
+                    'Vox': 0
+                };
+                
+                // Sumar puntos por cada respuesta
+                for (let i = 1; i <= totalQuestions; i++) {
+                    const questionName = 'q' + i;
+                    const selectedOption = document.querySelector(`input[name="${questionName}"]:checked`);
+                    if (selectedOption && answerMapping[questionName]) {
+                        const party = answerMapping[questionName][selectedOption.value];
+                        if (party) {
+                            scores[party]++;
+                        }
+                    }
+                }
+                
+                // Encontrar el partido con mayor puntuación
+                let maxScore = 0;
+                let winningParty = '';
+                let tie = false;
+                let tiedParties = [];
+                
+                for (const party in scores) {
+                    if (scores[party] > maxScore) {
+                        maxScore = scores[party];
+                        winningParty = party;
+                        tie = false;
+                        tiedParties = [party];
+                    } else if (scores[party] === maxScore && maxScore > 0) {
+                        tie = true;
+                        tiedParties.push(party);
+                    }
+                }
+                
+                // Mostrar resultados
+                if (tie && tiedParties.length > 1) {
+                    resultParty.textContent = `¡Empate! Tienes igual afinidad con ${tiedParties.map(p => partyNames[p]).join(' y ')}`;
+                    resultParty.style.backgroundColor = '#64748b';
+                } else if (winningParty) {
+                    resultParty.textContent = `Tu mayor afinidad es con: ${partyNames[winningParty]}`;
+                    resultParty.style.backgroundColor = partyColors[winningParty];
+                } else {
+                    resultParty.textContent = `No se pudieron calcular los resultados`;
+                    resultParty.style.backgroundColor = '#64748b';
+                }
+                
+                // Mostrar logos de partidos
+                partyLogos.innerHTML = '';
+                for (const party in scores) {
+                    const logoItem = document.createElement('div');
+                    logoItem.className = 'logo-item';
+                    if (party === winningParty && !tie) {
+                        logoItem.classList.add('winner');
+                    }
+                    
+                    logoItem.innerHTML = `
+                        <div class="logo-circle ${party}-logo">${partyInitials[party]}</div>
+                        <div style="font-weight: bold; color: ${partyColors[party]}">${partyNames[party]}</div>
+                        <div>${scores[party]} puntos</div>
+                    `;
+                    partyLogos.appendChild(logoItem);
+                }
+                
+                // Mostrar todas las puntuaciones
+                scoresContainer.innerHTML = '';
+                let totalScore = 0;
+                for (const party in scores) {
+                    totalScore += scores[party];
+                }
+                
+                for (const party in scores) {
+                    const percentage = totalScore > 0 ? Math.round((scores[party] / totalScore) * 100) : 0;
+                    
+                    const scoreItem = document.createElement('div');
+                    scoreItem.className = 'score-item';
+                    scoreItem.style.borderColor = partyColors[party];
+                    scoreItem.innerHTML = `
+                        <div style="font-weight: bold; color: ${partyColors[party]}">${partyNames[party]}</div>
+                        <div class="score-value">${scores[party]}</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${percentage}%; background-color: ${partyColors[party]}"></div>
+                        </div>
+                        <div>${percentage}%</div>
+                    `;
+                    scoresContainer.appendChild(scoreItem);
+                }
+                
+                // Mostrar resultados
+                resultsContainer.style.display = 'block';
+                
+                // Desplazarse a los resultados
+                resultsContainer.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            resetButton.addEventListener('click', function() {
+                // Ocultar resultados
+                resultsContainer.style.display = 'none';
+                
+                // Quitar selección de todas las opciones
+                options.forEach(option => {
+                    option.classList.remove('selected');
+                });
+                
+                // Reiniciar contador
+                currentQuestionSpan.textContent = '0';
+                
+                // Desplazarse al principio
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            
+            // Inicializar contador
+            updateQuestionCounter();
+        });
+    </script>
+</body>
+</html>
