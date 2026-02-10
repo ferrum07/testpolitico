@@ -27,6 +27,15 @@
         .btn-option:active {
             transform: scale(0.99);
         }
+        .btn-abstention {
+            background-color: #f1f5f9 !important;
+            border-color: #cbd5e1 !important;
+            color: #64748b !important;
+        }
+        .btn-abstention:hover {
+            background-color: #e2e8f0 !important;
+            border-color: #94a3b8 !important;
+        }
 
         /* Colores Específicos */
         .bg-sumar { background-color: #E51C55; }
@@ -77,7 +86,7 @@
             <p class="text-gray-600 max-w-md">Este cuestionario compara tus respuestas con los programas electorales oficiales de los principales partidos.</p>
             
             <div class="text-xs text-gray-500 bg-gray-50 p-3 rounded border border-gray-200">
-                <strong>Nota:</strong> Las opciones se presentan desordenadas aleatoriamente.
+                <strong>Nota:</strong> Las opciones se presentan desordenadas aleatoriamente. Puedes abstenerte en cualquier pregunta.
             </div>
 
             <button id="start-button" class="px-8 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
@@ -177,7 +186,7 @@
             };
 
             const questions = [
-                // ECONOMÍA
+                // ECONOMÍA (5 preguntas)
                 {
                     text: "Impuestos a las grandes fortunas:",
                     options: [
@@ -215,15 +224,16 @@
                     ]
                 },
                 {
-                    text: "Empresas públicas vs. privadas:",
+                    text: "Sistema de pensiones:",
                     options: [
-                        { text: "Reforzar y nacionalizar sectores estratégicos.", points: { sumar: 3, psoe: 1, pp: 0, vox: 0 } },
-                        { text: "Sector público fuerte en servicios esenciales.", points: { sumar: 2, psoe: 3, pp: 0, vox: 0 } },
-                        { text: "Privatización parcial para mejorar eficiencia.", points: { sumar: 0, psoe: 0, pp: 3, vox: 2 } },
-                        { text: "Privatización total de servicios no esenciales.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
+                        { text: "Reforzar pensiones públicas con más inversión estatal.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
+                        { text: "Mantener sistema público con ajustes sostenibles.", points: { sumar: 1, psoe: 3, pp: 1, vox: 0 } },
+                        { text: "Fomentar planes de pensiones privados complementarios.", points: { sumar: 0, psoe: 0, pp: 3, vox: 2 } },
+                        { text: "Transición hacia sistema mixto o mayormente privado.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
                     ]
                 },
-                // SOCIAL
+                
+                // SOCIAL (6 preguntas)
                 {
                     text: "Aborto:",
                     options: [
@@ -261,15 +271,25 @@
                     ]
                 },
                 {
-                    text: "Regulación de la prostitución:",
+                    text: "Violencia de género:",
                     options: [
-                        { text: "Abolición total y penalización del cliente.", points: { sumar: 3, psoe: 2, pp: 0, vox: 1 } },
-                        { text: "Persecución de trata y apoyo a víctimas.", points: { sumar: 2, psoe: 3, pp: 1, vox: 0 } },
-                        { text: "Regulación con controles sanitarios y laborales.", points: { sumar: 0, psoe: 1, pp: 3, vox: 2 } },
-                        { text: "Libre ejercicio sin intervención estatal.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
+                        { text: "Ampliar recursos y endurecer penas con enfoque feminista.", points: { sumar: 3, psoe: 3, pp: 1, vox: 0 } },
+                        { text: "Mantener políticas actuales con más financiación.", points: { sumar: 2, psoe: 2, pp: 2, vox: 0 } },
+                        { text: "Enfoque en violencia intrafamiliar sin distinción de género.", points: { sumar: 0, psoe: 0, pp: 3, vox: 2 } },
+                        { text: "Eliminar leyes específicas de violencia de género.", points: { sumar: 0, psoe: 0, pp: 0, vox: 3 } }
                     ]
                 },
-                // EDUCACIÓN
+                {
+                    text: "Memoria histórica:",
+                    options: [
+                        { text: "Impulsar investigación, exhumaciones y reconocimiento de víctimas.", points: { sumar: 3, psoe: 3, pp: 0, vox: 0 } },
+                        { text: "Mantener Ley de Memoria Democrática actual.", points: { sumar: 2, psoe: 2, pp: 1, vox: 0 } },
+                        { text: "Cerrar el debate y mirar hacia el futuro.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
+                        { text: "Derogar leyes de memoria histórica.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
+                    ]
+                },
+                
+                // EDUCACIÓN (4 preguntas)
                 {
                     text: "Enseñanza de religión en escuelas públicas:",
                     options: [
@@ -306,25 +326,8 @@
                         { text: "Tasas según costes reales con sistema de préstamos.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
                     ]
                 },
-                {
-                    text: "Contenido escolar sobre diversidad de género:",
-                    options: [
-                        { text: "Educación afectivo-sexual inclusiva y obligatoria.", points: { sumar: 3, psoe: 3, pp: 0, vox: 0 } },
-                        { text: "Formación en igualdad y respeto a la diversidad.", points: { sumar: 2, psoe: 2, pp: 1, vox: 0 } },
-                        { text: "Informar sin promover ideologías concretas.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
-                        { text: "Exclusión de contenidos sobre identidad de género.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
-                    ]
-                },
-                // TERRITORIAL
-                {
-                    text: "Independencia de Cataluña:",
-                    options: [
-                        { text: "Reconocer el derecho de autodeterminación.", points: { sumar: 3, psoe: 0, pp: 0, vox: 0 } },
-                        { text: "Diálogo político dentro de la Constitución actual.", points: { sumar: 1, psoe: 3, pp: 1, vox: 0 } },
-                        { text: "Defender la unidad sin ceder soberanía.", points: { sumar: 0, psoe: 1, pp: 3, vox: 2 } },
-                        { text: "Aplicar duramente la ley y reforzar el centralismo.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
-                    ]
-                },
+                
+                // TERRITORIAL (3 preguntas)
                 {
                     text: "Reforma territorial del Estado:",
                     options: [
@@ -344,24 +347,16 @@
                     ]
                 },
                 {
-                    text: "Símbolos oficiales del Estado:",
+                    text: "Monarquía vs República:",
                     options: [
-                        { text: "Aceptar símbolos regionales en instituciones autonómicas.", points: { sumar: 3, psoe: 2, pp: 1, vox: 0 } },
-                        { text: "Convivencia de banderas con preeminencia del Estado.", points: { sumar: 1, psoe: 3, pp: 2, vox: 0 } },
-                        { text: "Bandera de España obligatoria en todos los actos oficiales.", points: { sumar: 0, psoe: 1, pp: 3, vox: 2 } },
-                        { text: "Solo símbolos nacionales en todo el territorio español.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
+                        { text: "Convocar referéndum sobre la forma del Estado.", points: { sumar: 3, psoe: 1, pp: 0, vox: 0 } },
+                        { text: "Abrir debate sobre modernización de la monarquía.", points: { sumar: 2, psoe: 3, pp: 0, vox: 0 } },
+                        { text: "Mantener la monarquía parlamentaria actual.", points: { sumar: 0, psoe: 1, pp: 3, vox: 2 } },
+                        { text: "Defender la monarquía como institución esencial.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
                     ]
                 },
-                {
-                    text: "Policía autonómica (Mossos, Ertzaintza):",
-                    options: [
-                        { text: "Ampliar competencias policiales autonómicas.", points: { sumar: 3, psoe: 1, pp: 0, vox: 0 } },
-                        { text: "Mantener modelo actual con coordinación estatal.", points: { sumar: 1, psoe: 3, pp: 2, vox: 0 } },
-                        { text: "Supervisión más estrecha desde el Estado.", points: { sumar: 0, psoe: 1, pp: 3, vox: 1 } },
-                        { text: "Centralización de todas las fuerzas de seguridad.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
-                    ]
-                },
-                // INMIGRACIÓN
+                
+                // INMIGRACIÓN (2 preguntas)
                 {
                     text: "Regularización de inmigrantes sin papeles:",
                     options: [
@@ -369,15 +364,6 @@
                         { text: "Regularización con requisitos de integración.", points: { sumar: 1, psoe: 3, pp: 1, vox: 0 } },
                         { text: "Solo casos excepcionales con arraigo demostrable.", points: { sumar: 0, psoe: 1, pp: 3, vox: 1 } },
                         { text: "Ninguna regularización, deportaciones reforzadas.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
-                    ]
-                },
-                {
-                    text: "Control de fronteras:",
-                    options: [
-                        { text: "Priorizar acogida humanitaria y rutas seguras.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
-                        { text: "Combinar acogida con control ordenado.", points: { sumar: 1, psoe: 3, pp: 1, vox: 0 } },
-                        { text: "Reforzar control para prevenir entrada irregular.", points: { sumar: 0, psoe: 1, pp: 3, vox: 2 } },
-                        { text: "Cierre efectivo de fronteras y rechazo en frontera.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
                     ]
                 },
                 {
@@ -389,25 +375,8 @@
                         { text: "Restricción de acceso al mercado laboral para inmigrantes.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
                     ]
                 },
-                {
-                    text: "Reagrupación familiar:",
-                    options: [
-                        { text: "Facilitar al máximo la reagrupación familiar.", points: { sumar: 3, psoe: 3, pp: 1, vox: 0 } },
-                        { text: "Permitir con condiciones de integración.", points: { sumar: 1, psoe: 2, pp: 3, vox: 1 } },
-                        { text: "Limitar a casos justificados con recursos probados.", points: { sumar: 0, psoe: 0, pp: 2, vox: 3 } },
-                        { text: "Restringir drásticamente la reagrupación.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
-                    ]
-                },
-                {
-                    text: "Ayudas sociales para inmigrantes:",
-                    options: [
-                        { text: "Acceso universal a ayudas sin distinción.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
-                        { text: "Acceso progresivo según tiempo de residencia.", points: { sumar: 1, psoe: 3, pp: 1, vox: 0 } },
-                        { text: "Solo para residentes legales con años de cotización.", points: { sumar: 0, psoe: 1, pp: 3, vox: 2 } },
-                        { text: "Prioridad absoluta para nacionales.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
-                    ]
-                },
-                // MEDIO AMBIENTE
+                
+                // MEDIO AMBIENTE (2 preguntas)
                 {
                     text: "Transición energética:",
                     options: [
@@ -415,24 +384,6 @@
                         { text: "Descarbonización progresiva hacia 2050.", points: { sumar: 1, psoe: 3, pp: 1, vox: 0 } },
                         { text: "Combinar renovables con gas y nuclear.", points: { sumar: 0, psoe: 1, pp: 3, vox: 2 } },
                         { text: "Priorizar competitividad económica sobre medioambiente.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
-                    ]
-                },
-                {
-                    text: "Agricultura y ganadería industrial:",
-                    options: [
-                        { text: "Limitar macrogranjas y fomentar agricultura ecológica.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
-                        { text: "Promover sostenibilidad con apoyo al sector.", points: { sumar: 1, psoe: 3, pp: 1, vox: 0 } },
-                        { text: "Apoyar la producción intensiva competitiva.", points: { sumar: 0, psoe: 0, pp: 3, vox: 2 } },
-                        { text: "Eliminar trabas a la ganadería industrial.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
-                    ]
-                },
-                {
-                    text: "Uso del agua en la agricultura:",
-                    options: [
-                        { text: "Priorizar uso ecológico y limitar regadíos intensivos.", points: { sumar: 3, psoe: 1, pp: 0, vox: 0 } },
-                        { text: "Gestión sostenible con modernización de regadíos.", points: { sumar: 1, psoe: 3, pp: 2, vox: 1 } },
-                        { text: "Garantizar trasvases y disponibilidad para agricultores.", points: { sumar: 0, psoe: 1, pp: 3, vox: 2 } },
-                        { text: "Libre uso agrícola sin restricciones ambientales.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
                     ]
                 },
                 {
@@ -444,16 +395,84 @@
                         { text: "Energía estratégica para la soberanía energética.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
                     ]
                 },
-                // INTERNACIONAL
+                
+                // UNIÓN EUROPEA (4 preguntas)
                 {
-                    text: "Unión Europea:",
+                    text: "Futuro de la Unión Europea:",
                     options: [
                         { text: "Mayor integración política, fiscal y social.", points: { sumar: 3, psoe: 3, pp: 1, vox: 0 } },
-                        { text: "Europa federal y refuerzo de instituciones.", points: { sumar: 1, psoe: 3, pp: 1, vox: 0 } },
-                        { text: "Defensa de los intereses de España dentro de la UE actual.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
+                        { text: "Europa federal y refuerzo de instituciones.", points: { sumar: 2, psoe: 2, pp: 1, vox: 0 } },
+                        { text: "Defensa de los intereses de España dentro de la UE actual.", points: { sumar: 0, psoe: 1, pp: 3, vox: 1 } },
                         { text: "Priorizar soberanía nacional frente a Bruselas.", points: { sumar: 0, psoe: 0, pp: 0, vox: 3 } }
                     ]
                 },
+                {
+                    text: "Ampliación de la Unión Europea:",
+                    options: [
+                        { text: "Apoyar ampliación con condiciones de democracia y DDHH.", points: { sumar: 2, psoe: 3, pp: 2, vox: 0 } },
+                        { text: "Ampliar con garantías económicas y de Estado de derecho.", points: { sumar: 1, psoe: 2, pp: 3, vox: 1 } },
+                        { text: "Ralentizar ampliación para consolidar la UE actual.", points: { sumar: 3, psoe: 1, pp: 1, vox: 1 } },
+                        { text: "Oponerse a nuevas adhesiones y reducir competencias UE.", points: { sumar: 0, psoe: 0, pp: 0, vox: 3 } }
+                    ]
+                },
+                {
+                    text: "Defensa europea común:",
+                    options: [
+                        { text: "Crear ejército europeo independiente de la OTAN.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
+                        { text: "Reforzar cooperación en defensa dentro de la UE.", points: { sumar: 1, psoe: 3, pp: 2, vox: 1 } },
+                        { text: "Priorizar OTAN y cooperación bilateral.", points: { sumar: 0, psoe: 1, pp: 3, vox: 2 } },
+                        { text: "Defensa nacional exclusivamente española.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
+                    ]
+                },
+                {
+                    text: "Política migratoria europea:",
+                    options: [
+                        { text: "Sistema común de acogida con cuotas vinculantes.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
+                        { text: "Reparto solidario con flexibilidad según países.", points: { sumar: 1, psoe: 3, pp: 1, vox: 0 } },
+                        { text: "Control de fronteras exteriores sin cuotas obligatorias.", points: { sumar: 0, psoe: 1, pp: 3, vox: 1 } },
+                        { text: "Soberanía nacional total en política migratoria.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
+                    ]
+                },
+                
+                // INTERNACIONAL: EEUU Y TRUMP (4 preguntas)
+                {
+                    text: "Relación con Estados Unidos:",
+                    options: [
+                        { text: "Distanciamiento y priorizar autonomía estratégica europea.", points: { sumar: 3, psoe: 1, pp: 0, vox: 0 } },
+                        { text: "Relación equilibrada, cooperación sin subordinación.", points: { sumar: 1, psoe: 3, pp: 1, vox: 0 } },
+                        { text: "Mantener alianza transatlántica tradicional.", points: { sumar: 0, psoe: 1, pp: 3, vox: 2 } },
+                        { text: "Reforzar alianza con EEUU como prioridad absoluta.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
+                    ]
+                },
+                {
+                    text: "Aranceles y proteccionismo comercial:",
+                    options: [
+                        { text: "Aranceles selectivos para proteger industria y empleo europeo.", points: { sumar: 3, psoe: 2, pp: 0, vox: 1 } },
+                        { text: "Equilibrio entre libre comercio y protección sectorial.", points: { sumar: 1, psoe: 3, pp: 2, vox: 0 } },
+                        { text: "Defender libre comercio con reciprocidad.", points: { sumar: 0, psoe: 1, pp: 3, vox: 2 } },
+                        { text: "Proteccionismo nacional sin restricciones europeas.", points: { sumar: 0, psoe: 0, pp: 0, vox: 3 } }
+                    ]
+                },
+                {
+                    text: "Administración Trump y valores democráticos:",
+                    options: [
+                        { text: "Crítica firme y defensa de valores democráticos europeos.", points: { sumar: 3, psoe: 3, pp: 1, vox: 0 } },
+                        { text: "Distancia prudente, cooperar solo en intereses comunes.", points: { sumar: 1, psoe: 2, pp: 2, vox: 0 } },
+                        { text: "Relación pragmática sin valoraciones políticas.", points: { sumar: 0, psoe: 1, pp: 3, vox: 2 } },
+                        { text: "Alineamiento con políticas de Trump.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
+                    ]
+                },
+                {
+                    text: "Aranceles de Trump a productos europeos:",
+                    options: [
+                        { text: "Respuesta contundente con aranceles recíprocos.", points: { sumar: 2, psoe: 1, pp: 1, vox: 1 } },
+                        { text: "Negociación europea unida antes de represalias.", points: { sumar: 1, psoe: 3, pp: 2, vox: 0 } },
+                        { text: "Buscar acuerdos bilaterales flexibles.", points: { sumar: 0, psoe: 1, pp: 3, vox: 2 } },
+                        { text: "Aceptar condiciones para mantener buena relación.", points: { sumar: 3, psoe: 0, pp: 0, vox: 3 } }
+                    ]
+                },
+                
+                // INTERNACIONAL: OTROS (2 preguntas)
                 {
                     text: "Conflicto Israel - Palestina:",
                     options: [
@@ -461,6 +480,15 @@
                         { text: "Solución de dos Estados y apoyo a legalidad internacional.", points: { sumar: 1, psoe: 3, pp: 1, vox: 0 } },
                         { text: "Apoyo a Israel como democracia y derecho a defensa.", points: { sumar: 0, psoe: 0, pp: 3, vox: 2 } },
                         { text: "Alineamiento con Israel y lucha contra el terrorismo.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
+                    ]
+                },
+                {
+                    text: "Guerra en Ucrania:",
+                    options: [
+                        { text: "Apoyo militar y económico sin límites a Ucrania.", points: { sumar: 2, psoe: 2, pp: 3, vox: 1 } },
+                        { text: "Ayuda humanitaria y diplomática, con cautela militar.", points: { sumar: 3, psoe: 3, pp: 1, vox: 2 } },
+                        { text: "Priorizar negociación de paz sobre envío de armas.", points: { sumar: 1, psoe: 1, pp: 2, vox: 3 } },
+                        { text: "No intervención, España fuera del conflicto.", points: { sumar: 0, psoe: 0, pp: 0, vox: 2 } }
                     ]
                 }
             ];
@@ -504,7 +532,6 @@
                 const partyKey = imgElement.getAttribute('data-party');
                 
                 if (!partyKey || !partyData[partyKey]) {
-                    // Si no hay partido, ocultar imagen
                     imgElement.style.display = 'none';
                     const fallback = document.getElementById('winner-fallback-icon');
                     if (fallback) {
@@ -515,11 +542,9 @@
 
                 const party = partyData[partyKey];
                 
-                // Si falla la local, intenta la online
                 if (imgElement.src !== party.online) {
                     imgElement.src = party.online;
                 } else {
-                    // Si falla la online, muestra el icono fallback
                     imgElement.style.display = 'none';
                     const fallback = document.getElementById('winner-fallback-icon');
                     if (fallback) {
@@ -538,20 +563,19 @@
                 questionNumber.textContent = `PREGUNTA ${currentQuestion + 1}/${questions.length}`;
                 questionText.textContent = q.text;
                 
-                // Actualizar barra de progreso - incluye la pregunta actual
                 const percentage = ((currentQuestion + 1) / questions.length) * 100;
                 progressBar.style.width = `${percentage}%`;
                 progressBar.parentElement.setAttribute('aria-valuenow', percentage.toFixed(0));
 
                 optionsContainer.innerHTML = '';
                 
-                // Animación
                 optionsContainer.classList.remove('slide-in');
                 void optionsContainer.offsetWidth; 
                 optionsContainer.classList.add('slide-in');
 
                 const shuffledOptions = shuffleArray(q.options);
 
+                // Agregar opciones normales
                 shuffledOptions.forEach((opt, index) => {
                     const btn = document.createElement('button');
                     btn.type = 'button';
@@ -561,10 +585,18 @@
                     btn.addEventListener('click', () => handleAnswer(opt.points));
                     optionsContainer.appendChild(btn);
                 });
+
+                // Agregar opción de abstención al final
+                const abstentionBtn = document.createElement('button');
+                abstentionBtn.type = 'button';
+                abstentionBtn.className = 'btn-option btn-abstention w-full text-center p-3 rounded-lg border font-medium text-base shadow-sm';
+                abstentionBtn.textContent = 'Abstención';
+                abstentionBtn.setAttribute('aria-label', 'Abstenerse de responder');
+                abstentionBtn.addEventListener('click', () => handleAnswer({ sumar: 0, psoe: 0, pp: 0, vox: 0 }));
+                optionsContainer.appendChild(abstentionBtn);
             }
 
             function handleAnswer(points) {
-                // Sumar puntos
                 Object.keys(points).forEach(party => {
                     scores[party] += points[party];
                 });
@@ -582,28 +614,24 @@
                 quizScreen.classList.add('hidden');
                 resultScreen.classList.remove('hidden');
 
-                // Encontrar ganador - en caso de empate, toma el primero
                 const sortedScores = Object.entries(scores).sort((a, b) => b[1] - a[1]);
                 const winnerKey = sortedScores[0][0];
                 const winnerData = partyData[winnerKey];
 
-                // Mostrar nombre del ganador
                 const winnerEl = document.getElementById('winner-name');
                 winnerEl.textContent = winnerData.name;
                 winnerEl.className = `text-4xl font-black mt-2 tracking-tight ${winnerData.colorText}`;
                 
                 document.getElementById('winner-percent').textContent = `${scores[winnerKey]} Puntos acumulados`;
 
-                // MOSTRAR IMAGEN GRANDE DEL GANADOR
                 const logoImg = document.getElementById('winner-logo');
                 logoImg.setAttribute('data-party', winnerKey);
                 logoImg.setAttribute('alt', `Logo de ${winnerData.name}`);
-                logoImg.src = winnerData.local; // Intenta cargar PNG local
+                logoImg.src = winnerData.local;
                 logoImg.classList.remove('hidden');
                 logoImg.style.display = 'block';
                 document.getElementById('winner-fallback-icon').classList.add('hidden');
 
-                // Barras de progreso
                 const barsContainer = document.getElementById('bars-container');
                 const maxScore = sortedScores[0][1];
 
