@@ -33,12 +33,19 @@
         .btn-option:active {
             transform: scale(0.98);
         }
+        /* Estilos para asegurar que las imágenes se ajusten bien */
+        .party-logo {
+            max-height: 120px;
+            width: auto;
+            object-fit: contain;
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
 
     <!-- Contenedor Principal -->
-    <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden min-h-[500px] flex flex-col relative">
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden min-h-[600px] flex flex-col relative">
         
         <!-- Header -->
         <div class="bg-gray-900 text-white p-6 text-center">
@@ -50,7 +57,10 @@
         <div id="start-screen" class="flex-1 flex flex-col items-center justify-center p-8 text-center space-y-6">
             <div class="text-6xl">🗳️</div>
             <h2 class="text-xl font-semibold text-gray-800">¿A quién deberías votar?</h2>
-            <p class="text-gray-600">Este test analizará tus posturas en economía, sociedad, estructura del estado y derechos civiles para determinar tu afinidad con Sumar, PSOE, PP o Vox.</p>
+            <p class="text-gray-600">Este test analizará tus posturas para determinar tu afinidad con Sumar, PSOE, PP o Vox.</p>
+            <div class="text-xs text-gray-400 bg-gray-100 p-2 rounded">
+                Nota: Las respuestas aparecerán en orden aleatorio para evitar sesgos.
+            </div>
             <button onclick="startQuiz()" class="px-8 py-3 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-700 transition shadow-lg transform hover:-translate-y-1">
                 Comenzar Test
             </button>
@@ -65,7 +75,7 @@
             
             <div class="flex-1 flex flex-col justify-center">
                 <span id="question-number" class="text-sm font-bold text-blue-600 uppercase tracking-wide mb-2">Pregunta 1/30</span>
-                <h2 id="question-text" class="text-2xl font-bold text-gray-800 mb-8 leading-tight">
+                <h2 id="question-text" class="text-xl md:text-2xl font-bold text-gray-800 mb-6 leading-tight">
                     <!-- Pregunta insertada por JS -->
                 </h2>
 
@@ -76,12 +86,16 @@
         </div>
 
         <!-- Pantalla de Resultados -->
-        <div id="result-screen" class="hidden flex-1 flex flex-col p-6 slide-in">
+        <div id="result-screen" class="hidden flex-1 flex flex-col p-6 slide-in overflow-y-auto max-h-[80vh]">
             <h2 class="text-2xl font-bold text-center text-gray-800 mb-2">Tus Resultados</h2>
-            <p class="text-center text-gray-500 mb-6">Basado en tus respuestas, tu afinidad es:</p>
+            <p class="text-center text-gray-500 mb-4">Tu mayor afinidad es con:</p>
 
-            <div id="winner-container" class="text-center mb-8 p-4 bg-gray-50 rounded-xl border border-gray-100">
-                <span class="text-sm text-gray-500 uppercase">Partido recomendado</span>
+            <!-- Contenedor del Ganador con Logo -->
+            <div id="winner-container" class="text-center mb-6 p-6 bg-gray-50 rounded-xl border border-gray-100 flex flex-col items-center justify-center">
+                <!-- Imagen del partido ganador -->
+                <img id="winner-logo" src="" alt="Logo Partido" class="party-logo mb-4 hidden" onerror="this.style.display='none'; document.getElementById('winner-fallback-icon').style.display='block';">
+                <div id="winner-fallback-icon" class="text-6xl mb-2 hidden">🏆</div>
+                
                 <h3 id="winner-name" class="text-4xl font-black mt-2">Partido</h3>
             </div>
 
@@ -97,9 +111,14 @@
     </div>
 
     <script>
-        // Definición de Partidos y lógica de puntos
-        // Estructura de puntos: { sumar: 0, psoe: 0, pp: 0, vox: 0 }
-        
+        // Configuración de imágenes de partidos
+        const partyImages = {
+            sumar: "SUMAR.png",
+            psoe: "PSOE.png",
+            pp: "PP.png",
+            vox: "VOX.png"
+        };
+
         const questions = [
             // --- ECONOMÍA Y EMPLEO ---
             {
@@ -123,7 +142,7 @@
             {
                 text: "¿Qué hacemos con la edad de jubilación?",
                 options: [
-                    { text: "Hay que bajarla, jubilarse a los 60 o 62 años.", points: { sumar: 3, psoe: 0, pp: 0, vox: 1 } }, // Vox a veces populista en esto
+                    { text: "Hay que bajarla, jubilarse a los 60 o 62 años.", points: { sumar: 3, psoe: 0, pp: 0, vox: 1 } },
                     { text: "Mantenerla como está y ligar siempre las pensiones al IPC.", points: { sumar: 2, psoe: 3, pp: 0, vox: 0 } },
                     { text: "Fomentar la jubilación activa y asegurar la sostenibilidad del sistema.", points: { sumar: 0, psoe: 1, pp: 3, vox: 0 } },
                     { text: "Fomentar planes de pensiones privados y reducir el gasto público.", points: { sumar: 0, psoe: 0, pp: 2, vox: 3 } }
@@ -138,8 +157,7 @@
                     { text: "El gobierno no debe meterse en los horarios de las empresas.", points: { sumar: 0, psoe: 0, pp: 2, vox: 3 } }
                 ]
             },
-            
-            // --- SERVICIOS PÚBLICOS ---
+            // ... (Se mantienen las preguntas anteriores y se añaden nuevas hasta completar 30) ...
             {
                 text: "¿La sanidad debería privatizarse o externalizarse?",
                 options: [
@@ -155,7 +173,7 @@
                     { text: "Eliminar progresivamente los conciertos. Apuesta total por la pública.", points: { sumar: 3, psoe: 1, pp: 0, vox: 0 } },
                     { text: "Mantener el equilibrio actual, priorizando la pública.", points: { sumar: 1, psoe: 3, pp: 0, vox: 0 } },
                     { text: "Blindar la libertad de elección de los padres y la concertada.", points: { sumar: 0, psoe: 0, pp: 3, vox: 2 } },
-                    { text: "Cheque escolar para que los padres elijan cualquier centro, incluido religioso.", points: { sumar: 0, psoe: 0, pp: 2, vox: 3 } }
+                    { text: "Cheque escolar para que los padres elijan cualquier centro.", points: { sumar: 0, psoe: 0, pp: 2, vox: 3 } }
                 ]
             },
             {
@@ -167,8 +185,6 @@
                     { text: "Protección total al propietario frente a la ocupación e impagos.", points: { sumar: 0, psoe: 0, pp: 2, vox: 3 } }
                 ]
             },
-
-            // --- SOCIEDAD Y DERECHOS ---
             {
                 text: "Ley Trans y derechos LGTBI:",
                 options: [
@@ -179,11 +195,11 @@
                 ]
             },
             {
-                text: "¿Qué opinas de la Ley del 'Solo sí es sí' y el feminismo actual?",
+                text: "¿Qué opinas de la Ley del 'Solo sí es sí'?",
                 options: [
                     { text: "El feminismo es la base de la democracia. Hay que ir más allá.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
-                    { text: "Se cometieron errores técnicos pero el fondo (el consentimiento) es correcto.", points: { sumar: 2, psoe: 3, pp: 0, vox: 0 } },
-                    { text: "Ha sido un desastre que ha beneficiado a agresores. Volver al código anterior.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
+                    { text: "Se cometieron errores técnicos pero el fondo es correcto.", points: { sumar: 2, psoe: 3, pp: 0, vox: 0 } },
+                    { text: "Ha sido un desastre que ha beneficiado a agresores. Reforma total.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
                     { text: "La violencia no tiene género. Derogar leyes de violencia de género.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
                 ]
             },
@@ -192,7 +208,7 @@
                 options: [
                     { text: "Derecho fundamental garantizado en la sanidad pública siempre.", points: { sumar: 3, psoe: 3, pp: 0, vox: 0 } },
                     { text: "Acepto la ley de plazos actual y el consentimiento a partir de los 16.", points: { sumar: 1, psoe: 3, pp: 1, vox: 0 } },
-                    { text: "Apoyo la vida. Es necesario informar a la madre de alternativas (latido fetal).", points: { sumar: 0, psoe: 0, pp: 2, vox: 2 } },
+                    { text: "Apoyo la vida. Es necesario informar a la madre de alternativas.", points: { sumar: 0, psoe: 0, pp: 2, vox: 2 } },
                     { text: "Derogación de la ley del aborto. Fomento de la natalidad.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
                 ]
             },
@@ -214,8 +230,6 @@
                     { text: "Totalmente en contra. Defendemos la vida hasta el final natural.", points: { sumar: 0, psoe: 0, pp: 2, vox: 3 } }
                 ]
             },
-
-            // --- MODELO DE ESTADO ---
             {
                 text: "Cataluña y País Vasco (Modelo territorial):",
                 options: [
@@ -226,7 +240,7 @@
                 ]
             },
             {
-                text: "Uso de lenguas cooficiales (catalán, euskera, gallego) en el Congreso:",
+                text: "Uso de lenguas cooficiales en el Congreso:",
                 options: [
                     { text: "Excelente, refleja la realidad plurilingüe de España.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
                     { text: "Lo acepto como parte de la normalidad democrática.", points: { sumar: 1, psoe: 3, pp: 0, vox: 0 } },
@@ -243,8 +257,6 @@
                     { text: "¡Viva el Rey! Símbolo de la unidad de la Patria.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
                 ]
             },
-
-            // --- INMIGRACIÓN Y SEGURIDAD ---
             {
                 text: "Inmigración ilegal y fronteras:",
                 options: [
@@ -263,15 +275,13 @@
                     { text: "Patada en la puerta si hace falta. La propiedad es sagrada.", points: { sumar: 0, psoe: 0, pp: 2, vox: 3 } }
                 ]
             },
-
-            // --- MEDIO AMBIENTE Y ENERGÍA ---
             {
                 text: "Cambio climático y transición energética:",
                 options: [
-                    { text: "Emergencia climática. Cierre inmediato de nucleares y combustibles fósiles.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
+                    { text: "Emergencia climática. Cierre inmediato de nucleares y fósiles.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
                     { text: "Transición ecológica justa, apostando fuerte por renovables.", points: { sumar: 2, psoe: 3, pp: 0, vox: 0 } },
-                    { text: "Compromiso medioambiental, pero sin dañar la industria. Alargar nucleares.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
-                    { text: "El fanatismo climático arruina el campo. Soberanía energética real.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
+                    { text: "Compromiso medioambiental, pero sin dañar la industria.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
+                    { text: "El fanatismo climático arruina el campo. Soberanía energética.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
                 ]
             },
             {
@@ -280,7 +290,7 @@
                     { text: "Es la hoja de ruta imprescindible para un mundo sostenible.", points: { sumar: 3, psoe: 3, pp: 0, vox: 0 } },
                     { text: "Tiene objetivos loables, aunque hay que adaptarla.", points: { sumar: 1, psoe: 2, pp: 2, vox: 0 } },
                     { text: "Escéptico con algunas imposiciones burocráticas de la agenda.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
-                    { text: "Es una agenda globalista que destruye nuestra soberanía y el campo.", points: { sumar: 0, psoe: 0, pp: 0, vox: 3 } }
+                    { text: "Es una agenda globalista que destruye nuestra soberanía.", points: { sumar: 0, psoe: 0, pp: 0, vox: 3 } }
                 ]
             },
             {
@@ -297,12 +307,10 @@
                 options: [
                     { text: "Cerrar todas las centrales según el calendario previsto.", points: { sumar: 3, psoe: 3, pp: 0, vox: 0 } },
                     { text: "Mantenerlas temporalmente si es necesario para bajar precios.", points: { sumar: 0, psoe: 1, pp: 2, vox: 0 } },
-                    { text: "Es energía limpia y barata. Alargar vida útil y estudiar nuevas.", points: { sumar: 0, psoe: 0, pp: 3, vox: 2 } },
+                    { text: "Es energía limpia y barata. Alargar vida útil.", points: { sumar: 0, psoe: 0, pp: 3, vox: 2 } },
                     { text: "Apostar decididamente por la nuclear para ser independientes.", points: { sumar: 0, psoe: 0, pp: 2, vox: 3 } }
                 ]
             },
-
-            // --- INTERNACIONAL ---
             {
                 text: "Unión Europea:",
                 options: [
@@ -315,14 +323,12 @@
             {
                 text: "Conflicto Israel - Palestina:",
                 options: [
-                    { text: "Reconocimiento inmediato del Estado Palestino y sanciones a Israel.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
-                    { text: "Solución de dos estados a través de la diplomacia internacional.", points: { sumar: 1, psoe: 3, pp: 1, vox: 0 } },
-                    { text: "Israel es la única democracia de la zona y tiene derecho a defenderse.", points: { sumar: 0, psoe: 0, pp: 3, vox: 2 } },
+                    { text: "Reconocimiento del Estado Palestino y sanciones a Israel.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
+                    { text: "Solución de dos estados a través de la diplomacia.", points: { sumar: 1, psoe: 3, pp: 1, vox: 0 } },
+                    { text: "Israel es la única democracia de la zona, tiene derecho a defenderse.", points: { sumar: 0, psoe: 0, pp: 3, vox: 2 } },
                     { text: "Apoyo total a Israel frente al terrorismo islamista.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
                 ]
             },
-
-            // --- CULTURA Y VALORES ---
             {
                 text: "Religión en las escuelas y el estado:",
                 options: [
@@ -341,8 +347,6 @@
                     { text: "Cerrarlo inmediatamente. Es un chiringuito ideológico.", points: { sumar: 0, psoe: 0, pp: 0, vox: 3 } }
                 ]
             },
-            
-            // --- OTRAS CUESTIONES CLAVE ---
             {
                 text: "Ley Mordaza (Seguridad Ciudadana):",
                 options: [
@@ -355,16 +359,16 @@
             {
                 text: "Peajes en autovías:",
                 options: [
-                    { text: "No, las carreteras ya se pagan con impuestos. Que pague el transporte pesado.", points: { sumar: 2, psoe: 1, pp: 1, vox: 2 } },
+                    { text: "No, las carreteras ya se pagan con impuestos.", points: { sumar: 2, psoe: 1, pp: 1, vox: 2 } },
                     { text: "Quien contamina paga. Necesario para mantenimiento.", points: { sumar: 1, psoe: 3, pp: 0, vox: 0 } },
-                    { text: "En contra de imponer peajes generalizados ahora mismo.", points: { sumar: 0, psoe: 0, pp: 3, vox: 3 } }, // PP y Vox suelen oponerse en campaña
+                    { text: "En contra de imponer peajes generalizados ahora mismo.", points: { sumar: 0, psoe: 0, pp: 3, vox: 3 } },
                     { text: "Fomento del transporte público gratuito como alternativa.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } }
                 ]
             },
             {
                 text: "Financiación autonómica:",
                 options: [
-                    { text: "Reconocer singularidades y armonizar impuestos (que Madrid no haga dumping).", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
+                    { text: "Reconocer singularidades y armonizar impuestos.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
                     { text: "Solidaridad interterritorial garantizada.", points: { sumar: 1, psoe: 3, pp: 1, vox: 0 } },
                     { text: "Competencia fiscal. Si una comunidad quiere bajar impuestos, que pueda.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
                     { text: "Menos autonomías y una caja única centralizada.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
@@ -380,7 +384,7 @@
                 ]
             },
             {
-                text: "Última pregunta: ¿Con quién te irías de cañas?",
+                text: "¿Con quién te irías de cañas?",
                 options: [
                     { text: "Con Yolanda Díaz o alguien de los sindicatos.", points: { sumar: 3, psoe: 1, pp: 0, vox: 0 } },
                     { text: "Con Pedro Sánchez.", points: { sumar: 0, psoe: 3, pp: 0, vox: 0 } },
@@ -397,6 +401,15 @@
             document.getElementById('start-screen').classList.add('hidden');
             document.getElementById('quiz-screen').classList.remove('hidden');
             renderQuestion();
+        }
+
+        // Función para mezclar array (Fisher-Yates Shuffle)
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
         }
 
         function renderQuestion() {
@@ -416,7 +429,11 @@
             void container.offsetWidth; // trigger reflow
             container.classList.add('slide-in');
 
-            q.options.forEach((opt, index) => {
+            // CLONAMOS las opciones para no modificar el orden original del array questions
+            // y luego las mezclamos
+            const shuffledOptions = shuffleArray([...q.options]);
+
+            shuffledOptions.forEach((opt) => {
                 const btn = document.createElement('button');
                 btn.className = 'btn-option w-full text-left p-4 rounded-xl border-2 border-gray-200 hover:border-blue-500 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-blue-100 text-gray-700 font-medium text-lg';
                 btn.innerText = opt.text;
@@ -446,7 +463,6 @@
 
             // Calcular porcentajes
             const totalPoints = scores.sumar + scores.psoe + scores.pp + scores.vox;
-            // Evitar división por cero
             const total = totalPoints === 0 ? 1 : totalPoints;
 
             // Encontrar ganador
@@ -470,12 +486,23 @@
             winnerEl.innerText = partyNames[winnerKey];
             winnerEl.className = `text-4xl font-black mt-2 ${partyColors[winnerKey]}`;
 
+            // Mostrar LOGO del ganador
+            const logoImg = document.getElementById('winner-logo');
+            if (partyImages[winnerKey]) {
+                logoImg.src = partyImages[winnerKey];
+                logoImg.classList.remove('hidden');
+                document.getElementById('winner-fallback-icon').classList.add('hidden');
+            } else {
+                logoImg.classList.add('hidden');
+                document.getElementById('winner-fallback-icon').classList.remove('hidden');
+            }
+
             // Renderizar barras
             const barsContainer = document.getElementById('bars-container');
             const sortedKeys = Object.keys(scores).sort((a, b) => scores[b] - scores[a]);
-
-            // Normalizar para visualización (el máximo score será el 100% de la barra visual)
             const maxScore = scores[winnerKey];
+
+            barsContainer.innerHTML = ''; // Limpiar contenedor por si acaso
 
             sortedKeys.forEach(key => {
                 const score = scores[key];
@@ -491,9 +518,11 @@
 
                 const html = `
                     <div>
-                        <div class="flex justify-between mb-1">
-                            <span class="font-bold ${textColor}">${partyNames[key]}</span>
-                            <span class="text-gray-600 font-mono">${score} pts</span>
+                        <div class="flex justify-between mb-1 items-center">
+                            <span class="font-bold ${textColor} flex items-center gap-2">
+                                ${partyNames[key]}
+                            </span>
+                            <span class="text-gray-600 font-mono text-sm">${score} pts</span>
                         </div>
                         <div class="w-full bg-gray-200 rounded-full h-4">
                             <div class="${barColor} h-4 rounded-full transition-all duration-1000" style="width: ${widthPercent}%"></div>
