@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Afinidad Política España</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f4f6;
+        }
+        .party-sumar { color: #E51C55; }
+        .party-psoe { color: #E30613; }
+        .party-pp { color: #0056A3; }
+        .party-vox { color: #63BE21; }
+        
+        .bg-sumar { background-color: #E51C55; }
+        .bg-psoe { background-color: #E30613; }
+        .bg-pp { background-color: #0056A3; }
+        .bg-vox { background-color: #63BE21; }
+
+        .slide-in {
+            animation: slideIn 0.3s ease-out forwards;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .btn-option {
+            transition: all 0.2s;
+        }
+        .btn-option:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <!-- Contenedor Principal -->
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden min-h-[500px] flex flex-col relative">
+        
+        <!-- Header -->
+        <div class="bg-gray-900 text-white p-6 text-center">
+            <h1 class="text-2xl font-bold">Brújula Electoral</h1>
+            <p class="text-gray-400 text-sm mt-1">Descubre tu afinidad política en 30 preguntas</p>
+        </div>
+
+        <!-- Pantalla de Inicio -->
+        <div id="start-screen" class="flex-1 flex flex-col items-center justify-center p-8 text-center space-y-6">
+            <div class="text-6xl">🗳️</div>
+            <h2 class="text-xl font-semibold text-gray-800">¿A quién deberías votar?</h2>
+            <p class="text-gray-600">Este test analizará tus posturas en economía, sociedad, estructura del estado y derechos civiles para determinar tu afinidad con Sumar, PSOE, PP o Vox.</p>
+            <button onclick="startQuiz()" class="px-8 py-3 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-700 transition shadow-lg transform hover:-translate-y-1">
+                Comenzar Test
+            </button>
+        </div>
+
+        <!-- Pantalla de Preguntas -->
+        <div id="quiz-screen" class="hidden flex-1 flex flex-col p-6">
+            <!-- Barra de progreso -->
+            <div class="w-full bg-gray-200 rounded-full h-2.5 mb-6">
+                <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+            
+            <div class="flex-1 flex flex-col justify-center">
+                <span id="question-number" class="text-sm font-bold text-blue-600 uppercase tracking-wide mb-2">Pregunta 1/30</span>
+                <h2 id="question-text" class="text-2xl font-bold text-gray-800 mb-8 leading-tight">
+                    <!-- Pregunta insertada por JS -->
+                </h2>
+
+                <div id="options-container" class="space-y-3">
+                    <!-- Opciones insertadas por JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Pantalla de Resultados -->
+        <div id="result-screen" class="hidden flex-1 flex flex-col p-6 slide-in">
+            <h2 class="text-2xl font-bold text-center text-gray-800 mb-2">Tus Resultados</h2>
+            <p class="text-center text-gray-500 mb-6">Basado en tus respuestas, tu afinidad es:</p>
+
+            <div id="winner-container" class="text-center mb-8 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                <span class="text-sm text-gray-500 uppercase">Partido recomendado</span>
+                <h3 id="winner-name" class="text-4xl font-black mt-2">Partido</h3>
+            </div>
+
+            <div class="space-y-4" id="bars-container">
+                <!-- Barras de resultados -->
+            </div>
+
+            <button onclick="location.reload()" class="mt-8 w-full py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition">
+                Volver a empezar
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // Definición de Partidos y lógica de puntos
+        // Estructura de puntos: { sumar: 0, psoe: 0, pp: 0, vox: 0 }
+        
+        const questions = [
+            // --- ECONOMÍA Y EMPLEO ---
+            {
+                text: "¿Qué opinas sobre los impuestos a las grandes fortunas y la banca?",
+                options: [
+                    { text: "Deben ser permanentes y mucho más altos para redistribuir la riqueza.", points: { sumar: 3, psoe: 1, pp: 0, vox: 0 } },
+                    { text: "Estoy a favor de mantenerlos temporalmente si la economía lo requiere.", points: { sumar: 1, psoe: 3, pp: 0, vox: 0 } },
+                    { text: "Bajar impuestos atrae inversión, hay que eliminarlos o reducirlos.", points: { sumar: 0, psoe: 0, pp: 3, vox: 2 } },
+                    { text: "El dinero donde mejor está es en el bolsillo de los españoles. Bajada masiva.", points: { sumar: 0, psoe: 0, pp: 2, vox: 3 } }
+                ]
+            },
+            {
+                text: "¿Cuál debe ser el Salario Mínimo Interprofesional (SMI)?",
+                options: [
+                    { text: "Debe seguir subiendo agresivamente para acercarse a la media europea.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
+                    { text: "Debe subir, pero con moderación y diálogo con la patronal.", points: { sumar: 1, psoe: 3, pp: 1, vox: 0 } },
+                    { text: "No debe imponerse por ley, destruye empleo en pequeñas empresas.", points: { sumar: 0, psoe: 0, pp: 3, vox: 2 } },
+                    { text: "El mercado debe regular los salarios libremente.", points: { sumar: 0, psoe: 0, pp: 2, vox: 3 } }
+                ]
+            },
+            {
+                text: "¿Qué hacemos con la edad de jubilación?",
+                options: [
+                    { text: "Hay que bajarla, jubilarse a los 60 o 62 años.", points: { sumar: 3, psoe: 0, pp: 0, vox: 1 } }, // Vox a veces populista en esto
+                    { text: "Mantenerla como está y ligar siempre las pensiones al IPC.", points: { sumar: 2, psoe: 3, pp: 0, vox: 0 } },
+                    { text: "Fomentar la jubilación activa y asegurar la sostenibilidad del sistema.", points: { sumar: 0, psoe: 1, pp: 3, vox: 0 } },
+                    { text: "Fomentar planes de pensiones privados y reducir el gasto público.", points: { sumar: 0, psoe: 0, pp: 2, vox: 3 } }
+                ]
+            },
+            {
+                text: "Sobre la jornada laboral de 40 horas semanales:",
+                options: [
+                    { text: "Reducirla por ley a 37,5h o 32h sin reducción de sueldo ya.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
+                    { text: "Se puede estudiar reducirla, pero con calma y pacto social.", points: { sumar: 1, psoe: 3, pp: 0, vox: 0 } },
+                    { text: "Es una cortina de humo. La prioridad es la productividad.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
+                    { text: "El gobierno no debe meterse en los horarios de las empresas.", points: { sumar: 0, psoe: 0, pp: 2, vox: 3 } }
+                ]
+            },
+            
+            // --- SERVICIOS PÚBLICOS ---
+            {
+                text: "¿La sanidad debería privatizarse o externalizarse?",
+                options: [
+                    { text: "No, de ninguna manera. Sanidad 100% pública y revertir privatizaciones.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
+                    { text: "El modelo actual funciona, blindando lo público.", points: { sumar: 1, psoe: 3, pp: 1, vox: 0 } },
+                    { text: "La colaboración público-privada es esencial para reducir listas de espera.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
+                    { text: "Hay que reducir el gasto político y permitir gestión privada eficiente.", points: { sumar: 0, psoe: 0, pp: 2, vox: 3 } }
+                ]
+            },
+            {
+                text: "Educación Concertada (fondos públicos a colegios privados):",
+                options: [
+                    { text: "Eliminar progresivamente los conciertos. Apuesta total por la pública.", points: { sumar: 3, psoe: 1, pp: 0, vox: 0 } },
+                    { text: "Mantener el equilibrio actual, priorizando la pública.", points: { sumar: 1, psoe: 3, pp: 0, vox: 0 } },
+                    { text: "Blindar la libertad de elección de los padres y la concertada.", points: { sumar: 0, psoe: 0, pp: 3, vox: 2 } },
+                    { text: "Cheque escolar para que los padres elijan cualquier centro, incluido religioso.", points: { sumar: 0, psoe: 0, pp: 2, vox: 3 } }
+                ]
+            },
+            {
+                text: "Ley de Vivienda y control de alquileres:",
+                options: [
+                    { text: "Intervenir el mercado, topar precios obligatoriamente en todas partes.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
+                    { text: "Incentivos fiscales a propietarios y control en zonas tensionadas.", points: { sumar: 1, psoe: 3, pp: 0, vox: 0 } },
+                    { text: "El control de precios reduce la oferta. Hay que construir más y liberalizar suelo.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
+                    { text: "Protección total al propietario frente a la ocupación e impagos.", points: { sumar: 0, psoe: 0, pp: 2, vox: 3 } }
+                ]
+            },
+
+            // --- SOCIEDAD Y DERECHOS ---
+            {
+                text: "Ley Trans y derechos LGTBI:",
+                options: [
+                    { text: "Autodeterminación de género total y ampliar derechos.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
+                    { text: "Apoyo la ley actual aprobada por el gobierno de coalición.", points: { sumar: 2, psoe: 3, pp: 0, vox: 0 } },
+                    { text: "Revisar la ley. Hay aspectos que pueden generar inseguridad jurídica.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
+                    { text: "Derogar la Ley Trans y eliminar el adoctrinamiento de género.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
+                ]
+            },
+            {
+                text: "¿Qué opinas de la Ley del 'Solo sí es sí' y el feminismo actual?",
+                options: [
+                    { text: "El feminismo es la base de la democracia. Hay que ir más allá.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
+                    { text: "Se cometieron errores técnicos pero el fondo (el consentimiento) es correcto.", points: { sumar: 2, psoe: 3, pp: 0, vox: 0 } },
+                    { text: "Ha sido un desastre que ha beneficiado a agresores. Volver al código anterior.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
+                    { text: "La violencia no tiene género. Derogar leyes de violencia de género.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
+                ]
+            },
+            {
+                text: "Sobre el aborto:",
+                options: [
+                    { text: "Derecho fundamental garantizado en la sanidad pública siempre.", points: { sumar: 3, psoe: 3, pp: 0, vox: 0 } },
+                    { text: "Acepto la ley de plazos actual y el consentimiento a partir de los 16.", points: { sumar: 1, psoe: 3, pp: 1, vox: 0 } },
+                    { text: "Apoyo la vida. Es necesario informar a la madre de alternativas (latido fetal).", points: { sumar: 0, psoe: 0, pp: 2, vox: 2 } },
+                    { text: "Derogación de la ley del aborto. Fomento de la natalidad.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
+                ]
+            },
+            {
+                text: "Memoria Histórica (fosas del franquismo):",
+                options: [
+                    { text: "Justicia, verdad y reparación total. Ilegalizar fundaciones franquistas.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
+                    { text: "Seguir exhumando fosas por dignidad democrática.", points: { sumar: 2, psoe: 3, pp: 0, vox: 0 } },
+                    { text: "No hay que reabrir heridas del pasado, miremos al futuro.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
+                    { text: "Derogar la ley de Memoria Democrática. Es una ley sectaria.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
+                ]
+            },
+            {
+                text: "Eutanasia:",
+                options: [
+                    { text: "Es un derecho fundamental a una muerte digna.", points: { sumar: 3, psoe: 3, pp: 0, vox: 0 } },
+                    { text: "A favor, con estrictos controles médicos.", points: { sumar: 1, psoe: 3, pp: 1, vox: 0 } },
+                    { text: "En contra. Hay que potenciar los cuidados paliativos.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
+                    { text: "Totalmente en contra. Defendemos la vida hasta el final natural.", points: { sumar: 0, psoe: 0, pp: 2, vox: 3 } }
+                ]
+            },
+
+            // --- MODELO DE ESTADO ---
+            {
+                text: "Cataluña y País Vasco (Modelo territorial):",
+                options: [
+                    { text: "España es plurinacional. Referéndum pactado.", points: { sumar: 3, psoe: 0, pp: 0, vox: 0 } },
+                    { text: "Diálogo, indultos/amnistía para normalizar la convivencia.", points: { sumar: 2, psoe: 3, pp: 0, vox: 0 } },
+                    { text: "Constitucionalismo estricto. Ni amnistía ni referéndum.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
+                    { text: "Supresión de las autonomías. Ilegalización de partidos separatistas.", points: { sumar: 0, psoe: 0, pp: 0, vox: 3 } }
+                ]
+            },
+            {
+                text: "Uso de lenguas cooficiales (catalán, euskera, gallego) en el Congreso:",
+                options: [
+                    { text: "Excelente, refleja la realidad plurilingüe de España.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
+                    { text: "Lo acepto como parte de la normalidad democrática.", points: { sumar: 1, psoe: 3, pp: 0, vox: 0 } },
+                    { text: "Es un gasto innecesario, todos hablamos español.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
+                    { text: "El español es la única lengua vehicular. Basta de imposiciones.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
+                ]
+            },
+            {
+                text: "¿Monarquía o República?",
+                options: [
+                    { text: "República ya. El Rey no es elegido democráticamente.", points: { sumar: 3, psoe: 1, pp: 0, vox: 0 } },
+                    { text: "Tengo alma republicana, pero respeto el pacto constitucional actual.", points: { sumar: 1, psoe: 3, pp: 1, vox: 0 } },
+                    { text: "La Monarquía parlamentaria es garante de estabilidad y unidad.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
+                    { text: "¡Viva el Rey! Símbolo de la unidad de la Patria.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
+                ]
+            },
+
+            // --- INMIGRACIÓN Y SEGURIDAD ---
+            {
+                text: "Inmigración ilegal y fronteras:",
+                options: [
+                    { text: "Ningún ser humano es ilegal. Vías seguras y regularización.", points: { sumar: 3, psoe: 1, pp: 0, vox: 0 } },
+                    { text: "Control de fronteras pero respetando siempre los Derechos Humanos.", points: { sumar: 1, psoe: 3, pp: 1, vox: 0 } },
+                    { text: "Inmigración ordenada y legal. Expulsión de quien delinca.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
+                    { text: "Deportación masiva. Bloqueo naval. Prioridad nacional.", points: { sumar: 0, psoe: 0, pp: 0, vox: 3 } }
+                ]
+            },
+            {
+                text: "El problema de la 'Okupación':",
+                options: [
+                    { text: "El problema real son los fondos buitre y los alquileres abusivos.", points: { sumar: 3, psoe: 1, pp: 0, vox: 0 } },
+                    { text: "Hay que agilizar los desalojos sin desproteger a vulnerables.", points: { sumar: 1, psoe: 3, pp: 1, vox: 0 } },
+                    { text: "Desalojo exprés en 24 horas. Tolerancia cero.", points: { sumar: 0, psoe: 0, pp: 3, vox: 2 } },
+                    { text: "Patada en la puerta si hace falta. La propiedad es sagrada.", points: { sumar: 0, psoe: 0, pp: 2, vox: 3 } }
+                ]
+            },
+
+            // --- MEDIO AMBIENTE Y ENERGÍA ---
+            {
+                text: "Cambio climático y transición energética:",
+                options: [
+                    { text: "Emergencia climática. Cierre inmediato de nucleares y combustibles fósiles.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
+                    { text: "Transición ecológica justa, apostando fuerte por renovables.", points: { sumar: 2, psoe: 3, pp: 0, vox: 0 } },
+                    { text: "Compromiso medioambiental, pero sin dañar la industria. Alargar nucleares.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
+                    { text: "El fanatismo climático arruina el campo. Soberanía energética real.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
+                ]
+            },
+            {
+                text: "Agenda 2030:",
+                options: [
+                    { text: "Es la hoja de ruta imprescindible para un mundo sostenible.", points: { sumar: 3, psoe: 3, pp: 0, vox: 0 } },
+                    { text: "Tiene objetivos loables, aunque hay que adaptarla.", points: { sumar: 1, psoe: 2, pp: 2, vox: 0 } },
+                    { text: "Escéptico con algunas imposiciones burocráticas de la agenda.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
+                    { text: "Es una agenda globalista que destruye nuestra soberanía y el campo.", points: { sumar: 0, psoe: 0, pp: 0, vox: 3 } }
+                ]
+            },
+            {
+                text: "Toros y caza:",
+                options: [
+                    { text: "Prohibición de la tauromaquia y restricciones fuertes a la caza.", points: { sumar: 3, psoe: 0, pp: 0, vox: 0 } },
+                    { text: "Protección animal, pero respetando ciertas tradiciones reguladas.", points: { sumar: 0, psoe: 3, pp: 1, vox: 0 } },
+                    { text: "Apoyo al mundo rural, la caza y la tauromaquia como cultura.", points: { sumar: 0, psoe: 0, pp: 3, vox: 2 } },
+                    { text: "Protección blindada de la caza y los toros frente al animalismo.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
+                ]
+            },
+            {
+                text: "Energía Nuclear:",
+                options: [
+                    { text: "Cerrar todas las centrales según el calendario previsto.", points: { sumar: 3, psoe: 3, pp: 0, vox: 0 } },
+                    { text: "Mantenerlas temporalmente si es necesario para bajar precios.", points: { sumar: 0, psoe: 1, pp: 2, vox: 0 } },
+                    { text: "Es energía limpia y barata. Alargar vida útil y estudiar nuevas.", points: { sumar: 0, psoe: 0, pp: 3, vox: 2 } },
+                    { text: "Apostar decididamente por la nuclear para ser independientes.", points: { sumar: 0, psoe: 0, pp: 2, vox: 3 } }
+                ]
+            },
+
+            // --- INTERNACIONAL ---
+            {
+                text: "Unión Europea:",
+                options: [
+                    { text: "Más Europa, más integración social y fiscal.", points: { sumar: 3, psoe: 3, pp: 1, vox: 0 } },
+                    { text: "Europa de las naciones, pero manteniendo el mercado común.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
+                    { text: "Recuperar soberanía frente a los burócratas de Bruselas.", points: { sumar: 0, psoe: 0, pp: 0, vox: 3 } },
+                    { text: "Criticar el rumbo neoliberal de la UE actual.", points: { sumar: 2, psoe: 0, pp: 0, vox: 0 } }
+                ]
+            },
+            {
+                text: "Conflicto Israel - Palestina:",
+                options: [
+                    { text: "Reconocimiento inmediato del Estado Palestino y sanciones a Israel.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
+                    { text: "Solución de dos estados a través de la diplomacia internacional.", points: { sumar: 1, psoe: 3, pp: 1, vox: 0 } },
+                    { text: "Israel es la única democracia de la zona y tiene derecho a defenderse.", points: { sumar: 0, psoe: 0, pp: 3, vox: 2 } },
+                    { text: "Apoyo total a Israel frente al terrorismo islamista.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
+                ]
+            },
+
+            // --- CULTURA Y VALORES ---
+            {
+                text: "Religión en las escuelas y el estado:",
+                options: [
+                    { text: "Estado laico total. Religión fuera de las aulas.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
+                    { text: "Aconfesionalidad, revisando acuerdos con la Santa Sede.", points: { sumar: 1, psoe: 3, pp: 0, vox: 0 } },
+                    { text: "Respeto a la tradición católica y clase de religión optativa.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
+                    { text: "Defensa de las raíces cristianas de Occidente.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
+                ]
+            },
+            {
+                text: "Ministerio de Igualdad:",
+                options: [
+                    { text: "Es imprescindible y debe tener más presupuesto y competencias.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
+                    { text: "Es necesario, gestionado con sensatez.", points: { sumar: 0, psoe: 3, pp: 0, vox: 0 } },
+                    { text: "Se puede integrar en otros ministerios o reducir su gasto.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
+                    { text: "Cerrarlo inmediatamente. Es un chiringuito ideológico.", points: { sumar: 0, psoe: 0, pp: 0, vox: 3 } }
+                ]
+            },
+            
+            // --- OTRAS CUESTIONES CLAVE ---
+            {
+                text: "Ley Mordaza (Seguridad Ciudadana):",
+                options: [
+                    { text: "Derogación total. Limita la libertad de protesta.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
+                    { text: "Reforma de los artículos más polémicos.", points: { sumar: 1, psoe: 3, pp: 0, vox: 0 } },
+                    { text: "Mantenerla. La policía necesita herramientas para el orden.", points: { sumar: 0, psoe: 0, pp: 3, vox: 2 } },
+                    { text: "Reforzar la autoridad policial y sus medios.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
+                ]
+            },
+            {
+                text: "Peajes en autovías:",
+                options: [
+                    { text: "No, las carreteras ya se pagan con impuestos. Que pague el transporte pesado.", points: { sumar: 2, psoe: 1, pp: 1, vox: 2 } },
+                    { text: "Quien contamina paga. Necesario para mantenimiento.", points: { sumar: 1, psoe: 3, pp: 0, vox: 0 } },
+                    { text: "En contra de imponer peajes generalizados ahora mismo.", points: { sumar: 0, psoe: 0, pp: 3, vox: 3 } }, // PP y Vox suelen oponerse en campaña
+                    { text: "Fomento del transporte público gratuito como alternativa.", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } }
+                ]
+            },
+            {
+                text: "Financiación autonómica:",
+                options: [
+                    { text: "Reconocer singularidades y armonizar impuestos (que Madrid no haga dumping).", points: { sumar: 3, psoe: 2, pp: 0, vox: 0 } },
+                    { text: "Solidaridad interterritorial garantizada.", points: { sumar: 1, psoe: 3, pp: 1, vox: 0 } },
+                    { text: "Competencia fiscal. Si una comunidad quiere bajar impuestos, que pueda.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
+                    { text: "Menos autonomías y una caja única centralizada.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
+                ]
+            },
+            {
+                text: "¿Qué es España para ti?",
+                options: [
+                    { text: "Un país de países, diverso y plurinacional.", points: { sumar: 3, psoe: 1, pp: 0, vox: 0 } },
+                    { text: "Una nación de ciudadanos libres e iguales, descentralizada.", points: { sumar: 0, psoe: 3, pp: 1, vox: 0 } },
+                    { text: "Una nación indisoluble, patria común.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
+                    { text: "Una unidad de destino. Una sola nación, una sola bandera.", points: { sumar: 0, psoe: 0, pp: 0, vox: 3 } }
+                ]
+            },
+            {
+                text: "Última pregunta: ¿Con quién te irías de cañas?",
+                options: [
+                    { text: "Con Yolanda Díaz o alguien de los sindicatos.", points: { sumar: 3, psoe: 1, pp: 0, vox: 0 } },
+                    { text: "Con Pedro Sánchez.", points: { sumar: 0, psoe: 3, pp: 0, vox: 0 } },
+                    { text: "Con Feijóo o Ayuso.", points: { sumar: 0, psoe: 0, pp: 3, vox: 1 } },
+                    { text: "Con Abascal.", points: { sumar: 0, psoe: 0, pp: 1, vox: 3 } }
+                ]
+            }
+        ];
+
+        let currentQuestion = 0;
+        let scores = { sumar: 0, psoe: 0, pp: 0, vox: 0 };
+
+        function startQuiz() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('question-number').innerText = `PREGUNTA ${currentQuestion + 1}/${questions.length}`;
+            document.getElementById('question-text').innerText = q.text;
+            
+            // Update Progress Bar
+            const percentage = ((currentQuestion) / questions.length) * 100;
+            document.getElementById('progress-bar').style.width = `${percentage}%`;
+
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            
+            // Animación de entrada
+            container.classList.remove('slide-in');
+            void container.offsetWidth; // trigger reflow
+            container.classList.add('slide-in');
+
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'btn-option w-full text-left p-4 rounded-xl border-2 border-gray-200 hover:border-blue-500 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-blue-100 text-gray-700 font-medium text-lg';
+                btn.innerText = opt.text;
+                btn.onclick = () => handleAnswer(opt.points);
+                container.appendChild(btn);
+            });
+        }
+
+        function handleAnswer(points) {
+            scores.sumar += points.sumar;
+            scores.psoe += points.psoe;
+            scores.pp += points.pp;
+            scores.vox += points.vox;
+
+            currentQuestion++;
+
+            if (currentQuestion < questions.length) {
+                renderQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+
+            // Calcular porcentajes
+            const totalPoints = scores.sumar + scores.psoe + scores.pp + scores.vox;
+            // Evitar división por cero
+            const total = totalPoints === 0 ? 1 : totalPoints;
+
+            // Encontrar ganador
+            const winnerKey = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+            
+            const partyNames = {
+                sumar: "SUMAR",
+                psoe: "PSOE",
+                pp: "PARTIDO POPULAR",
+                vox: "VOX"
+            };
+            
+            const partyColors = {
+                sumar: "text-pink-600",
+                psoe: "text-red-600",
+                pp: "text-blue-600",
+                vox: "text-green-600"
+            };
+
+            const winnerEl = document.getElementById('winner-name');
+            winnerEl.innerText = partyNames[winnerKey];
+            winnerEl.className = `text-4xl font-black mt-2 ${partyColors[winnerKey]}`;
+
+            // Renderizar barras
+            const barsContainer = document.getElementById('bars-container');
+            const sortedKeys = Object.keys(scores).sort((a, b) => scores[b] - scores[a]);
+
+            // Normalizar para visualización (el máximo score será el 100% de la barra visual)
+            const maxScore = scores[winnerKey];
+
+            sortedKeys.forEach(key => {
+                const score = scores[key];
+                const widthPercent = maxScore === 0 ? 0 : (score / maxScore) * 100;
+                
+                const barColor = key === 'sumar' ? 'bg-sumar' : 
+                                 key === 'psoe' ? 'bg-psoe' : 
+                                 key === 'pp' ? 'bg-pp' : 'bg-vox';
+                
+                const textColor = key === 'sumar' ? 'text-pink-700' : 
+                                  key === 'psoe' ? 'text-red-700' : 
+                                  key === 'pp' ? 'text-blue-700' : 'text-green-700';
+
+                const html = `
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="font-bold ${textColor}">${partyNames[key]}</span>
+                            <span class="text-gray-600 font-mono">${score} pts</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-4">
+                            <div class="${barColor} h-4 rounded-full transition-all duration-1000" style="width: ${widthPercent}%"></div>
+                        </div>
+                    </div>
+                `;
+                barsContainer.innerHTML += html;
+            });
+        }
+    </script>
+</body>
+</html>
