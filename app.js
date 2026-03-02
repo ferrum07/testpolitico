@@ -139,6 +139,4 @@ function restart() {
   document.getElementById('step-results').classList.add('hidden');
   document.getElementById('step-quiz').classList.add('hidden');
   document.getElementById('hero-section').classList.remove('hidden');
-
 }
-
