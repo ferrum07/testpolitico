@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elecciones CyL 2026 — indecisos.es</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <a href="../index.html" class="nav-logo">indecisos<span>.es</span></a>
+  <a href="../index.html" class="nav-link">← Inicio</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero-section">
+  <div class="hero">
+    <span class="hero-badge">🏰 Castilla y León · 15 preguntas · 6 partidos</span>
+    <h1>Elecciones CyL 2026</h1>
+    <p>Test específico para las elecciones del 15 de marzo en Castilla y León. Incluye partidos regionales.</p>
+    <div class="how-it-works">
+      <div class="how-step">
+        <span class="step-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+          </svg>
+        </span>
+        Lee cada propuesta con calma
+      </div>
+      <div class="how-step">
+        <span class="step-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          </svg>
+        </span>
+        Vota sin ver los partidos
+      </div>
+      <div class="how-step">
+        <span class="step-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+          </svg>
+        </span>
+        Descubre tu afinidad
+      </div>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Comenzar el test →</button>
+    <p class="start-sub">Sin registro · Anónimo · 100% gratuito</p>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<div id="step-quiz" class="wrap hidden">
+  <div class="card fade-in">
+    <div class="progress-wrap">
+      <div class="progress-track">
+        <div class="progress-fill" id="pfill"></div>
+      </div>
+      <span class="progress-label" id="plabel"></span>
+    </div>
+    <span class="topic-chip" id="tchip"></span>
+    <p class="proposal-label">Propuesta</p>
+    <div class="proposal-box">
+      <p class="proposal-text" id="qtext"></p>
+    </div>
+    <div class="vote-grid">
+      <button class="vote-btn agree" id="btn-agree" onclick="pick(0)">
+        <span class="v-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+          </svg>
+        </span>
+        <span class="v-label">De acuerdo</span>
+        <span class="v-sub">Apoyo esto</span>
+      </button>
+      <button class="vote-btn abstain" id="btn-abstain" onclick="pick(2)">
+        <span class="v-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
+          </svg>
+        </span>
+        <span class="v-label">Me da igual</span>
+        <span class="v-sub">Indiferente</span>
+      </button>
+      <button class="vote-btn against" id="btn-against" onclick="pick(1)">
+        <span class="v-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </span>
+        <span class="v-label">En contra</span>
+        <span class="v-sub">No lo apoyo</span>
+      </button>
+    </div>
+    <div class="nav">
+      <button class="btn-prev" id="bprev">← Anterior</button>
+      <button class="btn-next" id="bnext" disabled>Siguiente →</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTADOS -->
+<div id="step-results" class="wrap hidden">
+  <div class="card fade-in" id="results-snapshot">
+    <div class="results-header">
+      <div class="badge">Tus resultados</div>
+      <h2>Así piensas 👇</h2>
+    </div>
+    <div id="rlist" class="results-list"></div>
+    <p class="disclaimer">
+      Resultado orientativo basado en posicionamiento programático.<br>
+      No constituye recomendación de voto.
+    </p>
+    <div class="snapshot-footer">indecisos.es</div>
+  </div>
+
+  <div class="download-actions">
+    <button id="btn-download-img" class="btn-download" onclick="downloadImage()">
+      📷 Descargar imagen
+    </button>
+    <button id="btn-download-pdf" class="btn-download" onclick="downloadPDF()">
+      📄 Descargar PDF
+    </button>
+  </div>
+
+  <hr class="section-divider">
+  <button class="btn-restart" onclick="restartQuiz()">← Repetir el test</button>
+</div>
+
+<!-- Scripts: primero los datos, luego el motor -->
+<script src="app.js"></script>
+<script src="../quiz-engine.js"></script>
+
+</body>
+</html>

@@ -1,118 +1,80 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Indecisos-Test Electoral</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="styles.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>indecisos.es — Orienta tu voto sin etiquetas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="bg-orbs">
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-</div>
 
-<div class="hero" id="hero-section">
-  <div class="hero-badge">Herramienta orientativa</div>
-  <h1>¿A quién<br>deberías votar?</h1>
-  <p>Lee cada propuesta y vota con total libertad. Sin etiquetas de partido. Al final descubrirás cuál se alinea más contigo.</p>
-  
-  <div class="how-it-works">
-    <div class="how-step">
-      <span class="step-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
-      </span>
-      Lee la propuesta
+<nav class="site-nav">
+  <a href="/" class="nav-logo">indecisos<span>.es</span></a>
+</nav>
+
+<section class="landing-hero">
+  <span class="hero-badge">Sin etiquetas · Sin sesgos · 100% anónimo</span>
+  <h1>Descubre tu voto<br><em>de verdad</em></h1>
+  <p>Responde a propuestas concretas sin ver los partidos.<br>Al final descubrirás cuál se alinea más con tus ideas.</p>
+</section>
+
+<main class="landing-grid wrap">
+
+<a href="generales/index.html" class="landing-card landing-card--nacional">
+    <div class="lc-icon">🗺️</div>
+    <div class="lc-body">
+      <span class="lc-tag">Nacional</span>
+      <h2 class="lc-title">Test General</h2>
+      <p class="lc-desc">30 preguntas · PP, PSOE, Vox y Sumar</p>
     </div>
-    <div class="how-step">
-      <span class="step-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
-      </span>
-      A favor o en contra
-    </div>
-    <div class="how-step">
-      <span class="step-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
-      </span>
-      Descubre tu afinidad
-    </div>
+    <span class="lc-arrow">→</span>
+  </a>
+
+  <div class="landing-section-title">
+    <span>🏛️ Elecciones autonómicas</span>
   </div>
 
-  <button class="btn-start" onclick="startQuiz()">Comenzar el test →</button>
-  <div class="start-sub">30 preguntas · 3 minutos</div>
-</div>
-
-<div class="wrap">
-  
-  <div id="step-quiz" class="hidden">
-    <div class="card fade-in">
-      <div class="progress-wrap">
-        <div class="progress-track">
-          <div class="progress-fill" id="pfill" style="width: 0%;"></div>
-        </div>
-        <div class="progress-label" id="plabel">1 / 30</div>
-      </div>
-
-      <div class="proposal-box">
-        <div class="proposal-label">Propuesta sobre <span id="tchip" class="topic-chip">Tema</span></div>
-        <div class="proposal-text" id="qtext">Cargando propuesta...</div>
-      </div>
-
-      <div class="vote-grid">
-        <button class="vote-btn agree" id="btn-agree" onclick="pick(0)">
-          <span class="v-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          </span>
-          <span class="v-label">A favor</span>
-          <span class="v-sub">Lo apoyo</span>
-        </button>
-        <button class="vote-btn against" id="btn-against" onclick="pick(1)">
-          <span class="v-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-          </span>
-          <span class="v-label">En contra</span>
-          <span class="v-sub">Me opongo</span>
-        </button>
-        <button class="vote-btn abstain" id="btn-abstain" onclick="pick(2)">
-          <span class="v-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-          </span>
-          <span class="v-label">Abstención</span>
-          <span class="v-sub">Neutral</span>
-        </button>
-      </div>
-
-      <div class="nav">
-        <button class="btn-prev" id="bprev" style="display: none;">← Atrás</button>
-        <button class="btn-next" id="bnext" disabled>Siguiente →</button>
-      </div>
+<a href="cyl/index.html" class="landing-card landing-card--cyl">
+    <div class="lc-urgente-badge">🔴 EN CAMPAÑA</div>
+    <div class="lc-icon">🏰</div>
+    <div class="lc-body">
+      <span class="lc-tag lc-tag--cyl">Castilla y León</span>
+      <h2 class="lc-title">Elecciones CyL 2026</h2>
+      <p class="lc-desc">15 preguntas · PP, PSOE, Vox, Sumar, UPL y Por Ávila</p>
+      <p class="lc-date" id="cyl-countdown">📅 15 de marzo de 2026</p>
     </div>
+    <span class="lc-arrow">→</span>
+  </a>
+
+  <div class="landing-card landing-card--soon">
+    <div class="lc-icon" style="opacity:0.4">🌞</div>
+    <div class="lc-body">
+      <span class="lc-tag">Andalucía</span>
+      <h2 class="lc-title" style="opacity:0.5">Próximamente</h2>
+      <p class="lc-desc" style="opacity:0.5">Elecciones previstas en 2026</p>
+    </div>
+    <span class="lc-coming">Pronto</span>
   </div>
 
-  <div id="step-results" class="hidden">
-    <div class="card fade-in">
-      <div class="results-header">
-        <div class="badge">
-          <svg style="width: 14px; height: 14px; vertical-align: middle; margin-right: 4px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-          Cuestionario completado
-        </div>
-        <h2>Tu perfil político</h2>
-      </div>
-      
-      <div class="results-list" id="rlist"></div>
-      
-      <hr class="section-divider"/>
-      <p class="disclaimer">
-        Esta herramienta es orientativa y se basa en los programas electorales y posiciones públicas verificadas de los partidos (2020–2026).
-      </p>
-      <button class="btn-restart" onclick="restart()">↻ Repetir test</button>
-    </div>
-  </div>
+</main>
 
-</div>
+<footer class="site-footer">
+  <p>indecisos.es · Proyecto sin afiliación política · <a href="mailto:hola@indecisos.es">Contacto</a></p>
+</footer>
 
-<script src="app.js"></script>
+<script>
+  const target = new Date('2026-03-15T08:00:00');
+  const el = document.getElementById('cyl-countdown');
+  function tick() {
+    const diff = target - new Date();
+    if (diff <= 0) { el.textContent = '📅 ¡Hoy es el día!'; return; }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    el.textContent = d > 0 ? `⏳ Faltan ${d} días y ${h}h` : `⏳ Faltan ${h} horas`;
+  }
+  tick(); setInterval(tick, 60000);
+</script>
 </body>
 </html>

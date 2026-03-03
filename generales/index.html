@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test General — indecisos.es</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Librerías para descargar resultados -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <nav class="site-nav">
+        <a href="../index.html" class="nav-logo">indecisos<span>.es</span></a>
+        <a href="../index.html" class="nav-link">← Volver</a>
+    </nav>
+
+    <!-- Pantalla de Inicio del Test -->
+    <section id="hero-section" class="hero wrap">
+        <span class="hero-badge">Nacional · 30 Preguntas</span>
+        <h1>Test General</h1>
+        <p>Descubre qué partido nacional se alinea más con tus ideas.<br>Responde sin sesgos y obtén tu resultado al instante.</p>
+        
+        <div class="how-it-works">
+            <div class="how-step">
+                <span class="step-icon">📝</span>
+                30 preguntas sobre temas reales
+            </div>
+            <div class="how-step">
+                <span class="step-icon">🔒</span>
+                100% anónimo, sin guardar datos
+            </div>
+            <div class="how-step">
+                <span class="step-icon">📊</span>
+                Resultados con porcentajes
+            </div>
+        </div>
+
+        <button class="btn-start" onclick="startQuiz()">Comenzar Test →</button>
+        <p class="start-sub">⏱️ Tiempo estimado: 3 minutos</p>
+    </section>
+
+    <!-- Pantalla del Cuestionario -->
+    <section id="step-quiz" class="wrap hidden">
+        <div class="card">
+            <div class="progress-wrap">
+                <div class="progress-track"><div id="pfill" class="progress-fill" style="width:0%"></div></div>
+                <div id="plabel" class="progress-label">1 / 30</div>
+            </div>
+            <div class="topic-chip" id="tchip">Tema</div>
+            <div class="proposal-box">
+                <p id="qtext" class="proposal-text">Cargando pregunta...</p>
+            </div>
+            <div class="vote-grid">
+                <button id="btn-agree" class="vote-btn agree" onclick="pick(0)">
+                    <span class="v-icon">✓</span>
+                    <span class="v-label">De acuerdo</span>
+                </button>
+                <button id="btn-abstain" class="vote-btn abstain" onclick="pick(2)">
+                    <span class="v-icon">-</span>
+                    <span class="v-label">Neutral</span>
+                </button>
+                <button id="btn-against" class="vote-btn against" onclick="pick(1)">
+                    <span class="v-icon">✕</span>
+                    <span class="v-label">En contra</span>
+                </button>
+            </div>
+            <div class="nav">
+                <button id="bprev" class="btn-prev" style="display:none">← Anterior</button>
+                <button id="bnext" class="btn-next" disabled>Siguiente →</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pantalla de Resultados -->
+    <section id="step-results" class="wrap hidden">
+        <div id="results-snapshot" class="card">
+            <div class="results-header">
+                <span class="badge">Tu Resultado</span>
+                <h2>Afinidad Política</h2>
+            </div>
+            <div id="rlist" class="results-list"></div>
+            <div class="snapshot-footer">indecisos.es — Orienta tu voto sin etiquetas</div>
+        </div>
+        
+        <div class="download-actions">
+            <button id="btn-download-img" class="btn-download" onclick="downloadImage()">📷 Descargar Imagen</button>
+            <button id="btn-download-pdf" class="btn-download" onclick="downloadPDF()">📄 Descargar PDF</button>
+        </div>
+        <button class="btn-restart" onclick="restartQuiz()">↻ Hacer otro test</button>
+        <p class="disclaimer">Resultado orientativo sin validez legal.</p>
+    </section>
+
+    <!-- Carga primero los datos, luego el motor -->
+    <script src="app.js"></script>
+    <script src="../quiz-engine.js"></script>
+</body>
+</html>
