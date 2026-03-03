@@ -6,7 +6,7 @@ const LOGOS = {
   PSOE: '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Logo_PSOE_comercial_2021.svg/1280px-Logo_PSOE_comercial_2021.svg.png" alt="PSOE">', 
   Sumar: '<img src="https://upload.wikimedia.org/wikipedia/commons/1/16/Sumar_icon.svg" alt="Sumar">', 
   PP: '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Logo_del_PP_%282022%29.svg/1920px-Logo_del_PP_%282022%29.svg.png" alt="PP">', 
-  Vox: '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Vox_logo.svg/512px-Vox_logo.svg.png" alt="Vox">' 
+  Vox: '<img src="https://upload.wikimedia.org/wikipedia/commons/a/aa/VOX_logo.svg" alt="Vox">' 
 };
 
 // stance: 1=apoya la propuesta, -1=se opone, 0=neutral
@@ -24,7 +24,7 @@ const QUESTIONS = [
   { topic: "Educación",       text: "La educación afectivo-sexual debe ser obligatoria en todos los colegios españoles",                     stance: [ 1,  1, -1, -1] },
   { topic: "Familia",         text: "El Estado debe garantizar plazas de guardería pública gratuita para todos los niños de 0 a 3 años",    stance: [ 1,  1,  0, -1] },
   { topic: "Memoria",         text: "La Ley de Memoria Democrática aprobada en 2022 fue necesaria y positiva para España",                  stance: [ 1,  1, -1, -1] },
-  { topic: "Laboral",         text: "El Salario Mínimo Interprofesional debe seguir subiendo por encima del IPC cada año",                  stance: [ 1,  1,  0, -1] },
+  { topic: "Laboral",         text: "El Salario Mínimo Interprofesional debe seguir subiendo al nivel del IPC cada año",                  stance: [ 1,  1,  0, -1] },
   { topic: "Territorio",      text: "Los indultos a los líderes del procés catalán concedidos en 2021 fueron una decisión correcta",        stance: [ 1,  1, -1, -1] },
   { topic: "Infraestructuras",text: "España debe invertir más en transporte público ferroviario y colectivo",                               stance: [ 1,  1,  0,  0] },
   { topic: "Educación",       text: "La escuela pública debe ser completamente laica, sin asignatura de religión en horario escolar",       stance: [ 1,  1, -1, -1] },
