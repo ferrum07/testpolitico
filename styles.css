@@ -410,3 +410,171 @@ body {
 .vote-btn.bounce {
   animation: voteBounceFill 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
+
+/* ══════════════════════════════════════════
+   LAYOUT DESKTOP — v3
+   Diseño completamente adaptado a pantallas grandes
+   ══════════════════════════════════════════ */
+
+/* ── NAV FULL WIDTH ── */
+.site-nav {
+  max-width: 100%;
+  padding: 18px 48px;
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo { font-size: 1.2rem; }
+
+/* ── LANDING HERO más grande ── */
+.landing-hero {
+  padding: 80px 48px 48px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.landing-hero h1 {
+  font-size: clamp(3rem, 5.5vw, 5.5rem);
+  margin: 20px 0 18px;
+}
+.landing-hero p {
+  font-size: 1.2rem;
+  max-width: 600px;
+}
+.participant-counter {
+  font-size: 0.92rem;
+  padding: 10px 22px;
+}
+
+/* ── GRID DE CARDS: 3 columnas en desktop ── */
+.wrap {
+  max-width: 1280px;
+  padding: 0 48px 80px;
+}
+.landing-grid {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+/* El título de sección ocupa toda la fila */
+.landing-section-title {
+  grid-column: 1 / -1;
+  font-size: 0.9rem;
+  padding: 12px 0 6px;
+}
+/* Test General ocupa las 3 columnas en su fila */
+.landing-card--nacional {
+  grid-column: 1 / -1;
+  padding: 28px 32px;
+}
+.landing-card--nacional .lc-icon { font-size: 2.6rem; }
+.landing-card--nacional .lc-title { font-size: 1.4rem; }
+.landing-card--nacional .lc-desc { font-size: 0.95rem; }
+
+/* Cards autonómicas más altas y amplias */
+.landing-card {
+  padding: 26px 24px;
+  border-radius: 20px;
+  min-height: 140px;
+}
+.lc-title { font-size: 1.2rem; }
+.lc-desc  { font-size: 0.88rem; }
+.lc-icon  { font-size: 2.4rem; }
+
+/* ── QUIZ: layout 2 columnas en desktop ── */
+@media (min-width: 900px) {
+  .wrap { max-width: 1280px; }
+
+  #step-quiz .card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto auto;
+    column-gap: 48px;
+    padding: 40px 48px;
+  }
+  /* Columna izquierda: progress + chip + propuesta */
+  #step-quiz .progress-wrap  { grid-column: 1 / -1; }
+  #step-quiz .topic-chip     { grid-column: 1; grid-row: 2; align-self: start; }
+  #step-quiz .proposal-label { grid-column: 1; grid-row: 3; }
+  #step-quiz .proposal-box   { grid-column: 1; grid-row: 3; margin-top: 24px; margin-bottom: 0; align-self: start; }
+  /* Columna derecha: botones de voto */
+  #step-quiz .vote-grid {
+    grid-column: 2;
+    grid-row: 2 / 5;
+    align-self: center;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  #step-quiz .vote-btn {
+    flex-direction: row;
+    padding: 18px 24px;
+    text-align: left;
+    gap: 16px;
+    justify-content: flex-start;
+  }
+  #step-quiz .v-icon { margin-bottom: 0; }
+  #step-quiz .v-label { font-size: 1rem; }
+  #step-quiz .v-sub { font-size: 0.82rem; }
+  /* Navegación full width abajo */
+  #step-quiz .nav { grid-column: 1 / -1; margin-top: 32px; }
+}
+
+/* ── RESULTADOS: 2 columnas ── */
+@media (min-width: 900px) {
+  #step-results .card {
+    padding: 40px 48px;
+  }
+  #step-results .results-list {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  #step-results .result-row.top {
+    grid-column: 1 / -1;
+  }
+  .result-winner-card { padding: 36px 32px; }
+  .result-winner-pct  { font-size: 3.6rem; }
+  .result-winner-name { font-size: 2rem; }
+  .result-winner-logo { width: 88px; height: 88px; border-radius: 20px; }
+
+  .download-actions { gap: 16px; }
+  .btn-download { padding: 15px 20px; font-size: 1rem; }
+  .share-actions { gap: 14px; }
+  .btn-share { padding: 14px 20px; font-size: 0.95rem; }
+}
+
+/* ── QUIZ WRAP más amplio ── */
+#step-quiz.wrap,
+#step-results.wrap {
+  max-width: 1100px;
+  padding: 32px 48px 80px;
+}
+
+/* ── HERO DEL TEST más amplio ── */
+.hero {
+  padding: 72px 48px 48px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+.hero h1 { font-size: clamp(2.6rem, 4.5vw, 4rem); }
+.hero p  { font-size: 1.1rem; max-width: 600px; }
+.how-it-works { gap: 20px; margin: 36px auto 44px; max-width: 700px; }
+.how-step {
+  max-width: 220px;
+  padding: 18px 24px;
+  font-size: 0.92rem;
+}
+.btn-start {
+  max-width: 420px;
+  padding: 19px;
+  font-size: 1.1rem;
+}
+
+/* ── PROPOSAL BOX más legible ── */
+.proposal-text { font-size: 1.25rem; line-height: 1.6; }
+.proposal-box  { padding: 22px 26px; }
+
+/* ── RESULT ROWS más amplias ── */
+.result-row { padding: 18px 24px; border-radius: 14px; }
+.result-logo-big { width: 52px; height: 52px; min-width: 52px; }
+.r-name { font-size: 1.05rem; }
+.result-pct { font-size: 1.25rem; min-width: 58px; }
+.result-bar-bg { height: 10px; }
+
+/* ── FOOTER ── */
+.site-footer { padding: 28px 48px; font-size: 0.88rem; }
