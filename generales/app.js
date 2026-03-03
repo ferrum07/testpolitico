@@ -9,8 +9,8 @@ const QUIZ_DATA = {
     
     // Colores oficiales de cada partido
     colors: {
-        psoe: '#E4003A',
-        sumar: '#E05A00',
+        psoe: '#FF0000',
+        sumar: '#E91E8C',
         pp: '#0056A2',
         vox: '#63BE21'
     },

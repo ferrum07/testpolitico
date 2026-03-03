@@ -3,7 +3,7 @@
 
 const QUIZ_DATA = {
   parties:    ['PP', 'PSOE', 'Vox', 'Sumar', 'UPL', 'PorAvila'],
-  colors:     { PP: '#0056A2', PSOE: '#E4003A', Vox: '#63BE21', Sumar: '#E05A00', UPL: '#8B0000', PorAvila: '#7B5EA7' },
+  colors:     { PP: '#0056A2', PSOE: '#FF0000', Vox: '#63BE21', Sumar: '#E91E8C', UPL: '#8B0000', PorAvila: '#7B5EA7' },
   logos:      { PP: '../logos/pp.png', PSOE: '../logos/psoe.png', Vox: '../logos/vox.png', Sumar: '../logos/sumar.png', UPL: '../logos/upl.png', PorAvila: '../logos/poravila.png' },
   partyNames: { PP: 'PP', PSOE: 'PSOE', Vox: 'Vox', Sumar: 'Sumar/IU', UPL: 'UPL', PorAvila: 'Por Ávila' },
   questions: [
