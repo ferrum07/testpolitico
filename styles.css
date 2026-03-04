@@ -373,9 +373,15 @@ body {
 .btn-donate--stripe:hover { background: #4f47e0; transform: translateY(-1px); }
 .donation-note { font-size: 0.75rem; color: var(--muted); margin-top: var(--space-sm); }
 
-/* ══════════════════════════════════════════════
-   UTILIDADES
-   ══════════════════════════════════════════════ */
+/* Badge y contador siempre en bloque, centrados, nunca en la misma línea */
+.hero .hero-badge {
+  display: block;
+  margin-bottom: 10px;
+}
+.hero .participant-counter {
+  display: inline-flex;
+  margin-bottom: 14px;
+}
 .hidden { display: none !important; }
 .fade-in { animation: fadeUp 0.4s ease-out both; }
 @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
