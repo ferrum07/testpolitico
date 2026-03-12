@@ -454,39 +454,136 @@ body {
    MÓVIL (≤ 599px)
    ══════════════════════════════════════════════ */
 @media (max-width: 599px) {
-  .site-nav { padding: 14px var(--space-md); }
-  .landing-hero { padding: var(--space-xl) var(--space-md) var(--space-md); }
-  .landing-hero h1 { font-size: clamp(2.2rem, 10vw, 3rem); }
-  .landing-hero p  { font-size: 0.98rem; }
+
+  /* ── CONSTANTE DE MARGEN LATERAL MÓVIL ── */
+  /* Todos los elementos usan 16px de margen del borde de pantalla */
+
+  /* NAV */
+  .site-nav { padding: 14px 16px; }
+
+  /* LANDING HERO */
+  .landing-hero { padding: 36px 16px 20px; max-width: 100%; }
+  .landing-hero h1 { font-size: clamp(2.2rem, 10vw, 3rem); margin: 10px 0 12px; }
+  .landing-hero p  { font-size: 0.98rem; max-width: 100%; }
   .participant-counter { font-size: 0.8rem; padding: 7px 14px; }
-  .wrap { padding: 0 var(--space-md) var(--space-xl); }
-  .landing-grid { grid-template-columns: 1fr; gap: var(--space-sm); padding: 0 0 var(--space-xl); }
-  .landing-card--nacional, .landing-card--cyl, .landing-card--soon { grid-column: 1 / -1; }
-  .landing-card { flex-direction: row; padding: var(--space-sm); min-height: auto; border-radius: var(--radius-lg); gap: var(--space-sm); }
-  .lc-icon  { font-size: 1.8rem; }
-  .lc-title { font-size: 0.98rem; }
-  .lc-desc  { font-size: 0.77rem; }
-  .lc-tag   { font-size: 0.66rem; }
-  .lc-urgente-badge { font-size: 0.58rem; padding: 2px 6px; top: 7px; right: 7px; }
-  .hero { padding: 28px var(--space-md) 24px; }
-  .hero-badge { margin-bottom: 10px; font-size: 0.72rem; padding: 5px 14px; }
-  .participant-counter { margin-top: 0 !important; margin-bottom: 10px; font-size: 0.8rem; padding: 7px 14px; }
+
+  /* WRAP — margen lateral base */
+  .wrap { padding: 0 16px 48px; }
+
+  /* LANDING GRID */
+  .landing-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 0 0 48px;   /* el padding lateral viene del .wrap */
+  }
+  .landing-card--nacional,
+  .landing-card--cyl,
+  .landing-card--soon { grid-column: 1 / -1; }
+
+  /* CARDS DE LA LANDING */
+  .landing-card {
+    flex-direction: row;
+    align-items: center;
+    padding: 14px 16px;   /* 16px horizontal = respira bien */
+    min-height: auto;
+    border-radius: 14px;
+    gap: 14px;
+  }
+  .lc-icon  { font-size: 1.8rem; flex-shrink: 0; }
+  .lc-title { font-size: 0.97rem; }
+  .lc-desc  { font-size: 0.78rem; }
+  .lc-tag   { font-size: 0.66rem; margin-bottom: 3px; }
+  .lc-urgente-badge { font-size: 0.58rem; padding: 2px 6px; top: 8px; right: 8px; }
+
+  /* HERO DEL TEST */
+  .hero { padding: 28px 16px 24px; }
+  .hero-badge { font-size: 0.72rem; padding: 5px 14px; margin-bottom: 10px; }
+  .participant-counter { margin-top: 0 !important; margin-bottom: 10px; }
   .hero h1 { font-size: clamp(1.9rem, 9vw, 2.4rem); margin-bottom: 8px; }
-  .hero p  { font-size: 0.95rem; margin-bottom: 20px; line-height: 1.55; }
-  .how-it-works { flex-direction: row; flex-wrap: nowrap; gap: 8px; margin: 0 auto 20px; max-width: 100%; }
-  .how-step { flex: 1; min-width: 0; max-width: none; width: auto; padding: 10px 6px; font-size: 0.74rem; line-height: 1.35; border-radius: 10px; }
+  .hero p  { font-size: 0.95rem; margin-bottom: 20px; line-height: 1.55; max-width: 100%; }
+
+  /* PASOS "CÓMO FUNCIONA" — fila horizontal de 3 */
+  .how-it-works {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 8px;
+    margin: 0 auto 20px;
+    max-width: 100%;
+  }
+  .how-step {
+    flex: 1;
+    min-width: 0;
+    max-width: none;
+    width: auto;
+    padding: 12px 8px;   /* suficiente aire interno */
+    font-size: 0.74rem;
+    line-height: 1.35;
+    border-radius: 10px;
+  }
   .step-icon { font-size: 1.2rem; margin-bottom: 4px; }
-  .btn-start { max-width: 100%; padding: 15px; font-size: 1rem; }
+
+  /* BOTÓN INICIO */
+  .btn-start { max-width: 100%; padding: 15px 16px; font-size: 1rem; }
   .start-sub { font-size: 0.76rem; margin-top: 8px; }
-  .card { padding: var(--space-md); }
-  .vote-grid { grid-template-columns: 1fr; gap: var(--space-xs); }
-  .vote-btn  { flex-direction: row; padding: var(--space-sm) var(--space-md); text-align: left; gap: var(--space-sm); justify-content: flex-start; }
-  .v-icon    { margin-bottom: 0; }
-  .proposal-text { font-size: 1.05rem; }
+
+  /* CARD DEL QUIZ */
+  .card { padding: 20px 16px; }  /* 16px lateral, 20px vertical */
+
+  /* BARRA PROGRESO */
+  .progress-wrap { margin-bottom: 20px; }
+
+  /* PREGUNTA */
+  .proposal-box { padding: 14px 16px; margin-bottom: 20px; }
+  .proposal-text { font-size: 1.02rem; }
+
+  /* BOTONES DE VOTO */
+  .vote-grid { grid-template-columns: 1fr; gap: 8px; }
+  .vote-btn {
+    flex-direction: row;
+    padding: 13px 16px;   /* 16px horizontal consistente */
+    text-align: left;
+    gap: 14px;
+    justify-content: flex-start;
+    border-radius: 10px;
+  }
+  .v-icon { margin-bottom: 0; }
+  .v-label { font-size: 0.9rem; }
+
+  /* NAVEGACIÓN PREV/NEXT */
+  .nav { margin-top: 20px; gap: 8px; }
+  .btn-prev { padding: 13px 14px; font-size: 0.88rem; }
+  .btn-next { padding: 13px 16px; font-size: 0.95rem; }
+
+  /* RESULTADOS */
+  .results-header { margin-bottom: 20px; }
+  .result-winner-card { padding: 24px 16px 20px; margin-bottom: 16px; }
   .result-winner-pct  { font-size: 2.4rem; }
   .result-winner-name { font-size: 1.4rem; }
-  .results-list { grid-template-columns: 1fr; }
-  .download-actions, .share-actions, .donation-buttons { flex-direction: column; }
-  .btn-download, .btn-share, .btn-donate { width: 100%; justify-content: center; }
-  .donation-section { padding: var(--space-md); }
+  .result-winner-logo { width: 60px; height: 60px; }
+  .results-list { grid-template-columns: 1fr; gap: 8px; }
+  .result-row { padding: 12px 14px; gap: 12px; }
+  .result-logo-big { width: 38px; height: 38px; min-width: 38px; }
+  .r-name { font-size: 0.92rem; }
+  .result-pct { font-size: 1rem; min-width: 44px; }
+  .result-bar-bg { height: 6px; }
+
+  /* DISCLAIMER Y BOTONES INFERIORES */
+  .disclaimer { margin-top: 20px; }
+  .section-divider { margin: 16px 0; }
+  .btn-restart { padding: 13px 16px; margin-top: 12px; }
+  .download-actions { flex-direction: column; gap: 8px; margin-top: 12px; }
+  .share-actions    { flex-direction: column; gap: 8px; margin-top: 12px; }
+  .donation-buttons { flex-direction: column; gap: 8px; }
+  .btn-download, .btn-share, .btn-donate {
+    width: 100%;
+    justify-content: center;
+    padding: 13px 16px;
+  }
+
+  /* DONACIONES */
+  .donation-section { padding: 20px 16px; margin-top: 12px; }
+  .donation-desc { font-size: 0.84rem; }
+
+  /* FOOTER */
+  .site-footer { padding: 20px 16px; font-size: 0.8rem; }
 }
