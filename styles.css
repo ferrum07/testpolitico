@@ -80,24 +80,6 @@ body {
   font-size: 0.76rem; font-weight: 700; letter-spacing: 0.06em;
   color: var(--muted); text-transform: uppercase; margin-bottom: var(--space-md);
 }
-.participant-counter {
-  display: inline-flex; align-items: center; gap: var(--space-xs);
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: var(--radius-pill); padding: 8px 18px;
-  font-size: 0.84rem; font-weight: 600; color: var(--muted);
-  margin-top: var(--space-md); box-shadow: 0 2px 8px rgba(45,36,30,0.05);
-}
-.participant-counter strong { color: var(--text); }
-.participant-counter .dot {
-  width: 7px; height: 7px; border-radius: 50%;
-  background: #4CAF50; flex-shrink: 0;
-  animation: ping 1.8s ease-in-out infinite;
-}
-@keyframes ping {
-  0%   { box-shadow: 0 0 0 0 rgba(76,175,80,0.5); }
-  70%  { box-shadow: 0 0 0 7px rgba(76,175,80,0); }
-  100% { box-shadow: 0 0 0 0 rgba(76,175,80,0); }
-}
 
 /* ══════════════════════════════════════════════
    LANDING — GRID DE TESTS
@@ -373,15 +355,8 @@ body {
 .btn-donate--stripe:hover { background: #4f47e0; transform: translateY(-1px); }
 .donation-note { font-size: 0.75rem; color: var(--muted); margin-top: var(--space-sm); }
 
-/* Badge y contador siempre en bloque, centrados, nunca en la misma línea */
-.hero .hero-badge {
-  display: block;
-  margin-bottom: 10px;
-}
-.hero .participant-counter {
-  display: inline-flex;
-  margin-bottom: 14px;
-}
+/* Badge siempre en bloque, centrado */
+.hero .hero-badge { display: block; margin-bottom: 18px; }
 .hidden { display: none !important; }
 .fade-in { animation: fadeUp 0.4s ease-out both; }
 @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
@@ -404,7 +379,6 @@ body {
   .landing-hero { padding: 80px var(--space-xl) var(--space-xl); max-width: 1200px; }
   .landing-hero h1 { font-size: clamp(3.2rem, 5vw, 5.2rem); }
   .landing-hero p { font-size: 1.2rem; max-width: 620px; }
-  .participant-counter { font-size: 0.92rem; padding: 10px 22px; }
 
   .wrap { max-width: 1200px; padding: 0 var(--space-xl) var(--space-2xl); }
   .landing-grid { grid-template-columns: repeat(3, 1fr); gap: var(--space-md); }
@@ -465,7 +439,6 @@ body {
   .landing-hero { padding: 36px 16px 20px; max-width: 100%; }
   .landing-hero h1 { font-size: clamp(2.2rem, 10vw, 3rem); margin: 10px 0 12px; }
   .landing-hero p  { font-size: 0.98rem; max-width: 100%; }
-  .participant-counter { font-size: 0.8rem; padding: 7px 14px; }
 
   /* WRAP — margen lateral base */
   .wrap { padding: 0 16px 48px; }
@@ -498,7 +471,6 @@ body {
   /* HERO DEL TEST */
   .hero { padding: 28px 16px 24px; }
   .hero-badge { font-size: 0.72rem; padding: 5px 14px; margin-bottom: 10px; }
-  .participant-counter { margin-top: 0 !important; margin-bottom: 10px; }
   .hero h1 { font-size: clamp(1.9rem, 9vw, 2.4rem); margin-bottom: 8px; }
   .hero p  { font-size: 0.95rem; margin-bottom: 20px; line-height: 1.55; max-width: 100%; }
 
