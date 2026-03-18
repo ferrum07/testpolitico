@@ -15,6 +15,24 @@
     <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
     <link rel="manifest" href="../site.webmanifest">
     <link rel="stylesheet" href="../styles.css">
+  <!-- SEO -->
+  <meta name="description" content="Test General Nacional: descubre qué partido (PP, PSOE, Vox, Sumar) se alinea más con tus ideas. 20 preguntas aleatorias, 100% anónimo.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://indecisos.es/generales/">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://indecisos.es/generales/">
+  <meta property="og:title" content="Test General Nacional — indecisos.es">
+  <meta property="og:description" content="20 preguntas aleatorias sobre propuestas reales. Descubre con qué partido coincides más, sin sesgos y sin ver los partidos.">
+  <meta property="og:image" content="https://indecisos.es/og-image.png">
+  <meta property="og:locale" content="es_ES">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Test General Nacional — indecisos.es">
+  <meta name="twitter:description" content="20 preguntas aleatorias. Descubre con qué partido coincides más. 100% anónimo.">
+  <meta name="twitter:image" content="https://indecisos.es/og-image.png">
+  <!-- Analytics: sustituir TU-DOMINIO por indecisos.es una vez configurado en plausible.io -->
+  <script defer data-domain="indecisos.es" src="https://plausible.io/js/script.js"></script>
 </head>
 <body>
     <nav class="site-nav">
@@ -59,19 +77,20 @@
                 <p id="qtext" class="proposal-text">Cargando pregunta...</p>
             </div>
             <div class="vote-grid">
-                <button id="btn-agree" class="vote-btn agree" onclick="pick(0)">
+                <button id="btn-agree" class="vote-btn agree" onclick="pick(0)" role="radio" aria-pressed="false">
                     <span class="v-icon">✓</span>
                     <span class="v-label">De acuerdo</span>
                 </button>
-                <button id="btn-abstain" class="vote-btn abstain" onclick="pick(2)">
+                <button id="btn-abstain" class="vote-btn abstain" onclick="pick(2)" role="radio" aria-pressed="false">
                     <span class="v-icon">-</span>
                     <span class="v-label">Neutral</span>
                 </button>
-                <button id="btn-against" class="vote-btn against" onclick="pick(1)">
+                <button id="btn-against" class="vote-btn against" onclick="pick(1)" role="radio" aria-pressed="false">
                     <span class="v-icon">✕</span>
                     <span class="v-label">En contra</span>
                 </button>
             </div>
+                        <p class="keyboard-hint" id="kb-hint" style="display:none"><kbd>1</kbd> A favor &nbsp; <kbd>2</kbd> En contra &nbsp; <kbd>3</kbd> Abstención &nbsp; <kbd>Enter</kbd> Siguiente</p>
             <div class="nav">
                 <button id="bprev" class="btn-prev" style="display:none">← Anterior</button>
                 <button id="bnext" class="btn-next" disabled>Siguiente →</button>
@@ -93,6 +112,7 @@
         <div class="download-actions">
             <button id="btn-download-img" class="btn-download" onclick="downloadImage()">📷 Descargar Imagen</button>
             <button id="btn-download-pdf" class="btn-download" onclick="downloadPDF()">📄 Descargar PDF</button>
+            <button id="btn-download-stories" class="btn-download" onclick="downloadStories()">📱 Stories (9:16)</button>
         </div>
         <button class="btn-restart" onclick="restartQuiz()">↻ Hacer otro test</button>
         <p class="disclaimer">Resultado orientativo sin validez legal.</p>
@@ -101,5 +121,7 @@
     <!-- Carga primero los datos, luego el motor -->
     <script src="app.js"></script>
     <script src="../quiz-engine.js"></script>
+<footer class="site-footer"><p>indecisos.es · <a href="../aviso-legal.html">Aviso Legal</a> · <a href="../como-funciona.html">¿Cómo funciona?</a></p></footer>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(()=>{})}</script>
 </body>
 </html>

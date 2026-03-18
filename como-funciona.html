@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¿Cómo funciona? — indecisos.es</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <meta name="description" content="Cómo funciona indecisos.es: metodología del test, cómo se calcula el resultado y por qué es anónimo.">
+  <style>
+    .cf-wrap { max-width: 680px; margin: 0 auto; padding: 48px 20px 80px; }
+    .cf-title { font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 12px; line-height: 1.1; }
+    .cf-lead  { font-size: 1.1rem; color: var(--muted); line-height: 1.65; margin-bottom: 48px; max-width: 560px; }
+    .cf-block { margin-bottom: 40px; }
+    .cf-block h2 { font-size: 1.25rem; font-weight: 800; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+    .cf-block p  { font-size: 1rem; color: var(--muted); line-height: 1.7; margin-bottom: 10px; }
+    .cf-block p:last-child { margin-bottom: 0; }
+    .cf-num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: var(--accent); color: white; border-radius: 50%; font-size: 0.8rem; font-weight: 800; flex-shrink: 0; }
+    .cf-divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+    .cf-formula { background: #FAF8F4; border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin: 14px 0; font-size: 0.95rem; color: var(--text); line-height: 1.7; }
+    .cf-formula strong { color: var(--accent); }
+    .cf-tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .cf-tag { background: #EBE5D9; border-radius: 6px; padding: 4px 12px; font-size: 0.8rem; font-weight: 600; color: var(--muted); }
+    .cf-alert { background: #F2FBF3; border: 1px solid #4CAF50; border-radius: 12px; padding: 16px 20px; font-size: 0.9rem; color: #2E7D32; line-height: 1.6; margin-top: 14px; }
+    @media (max-width: 599px) {
+      .cf-wrap { padding: 32px 16px 60px; }
+      .cf-lead { margin-bottom: 32px; font-size: 1rem; }
+      .cf-block { margin-bottom: 28px; }
+    }
+  </style>
+  <!-- Analytics: sustituir TU-DOMINIO por indecisos.es una vez configurado en plausible.io -->
+  <script defer data-domain="indecisos.es" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/" class="nav-logo">indecisos<span>.es</span></a>
+  <a href="/" class="nav-link">← Inicio</a>
+</nav>
+
+<div class="cf-wrap">
+
+  <p class="hero-badge" style="display:inline-block;margin-bottom:16px">Metodología</p>
+  <h1 class="cf-title">¿Cómo funciona<br>indecisos.es?</h1>
+  <p class="cf-lead">Un test diseñado para que descubras tu afinidad política respondiendo a propuestas concretas, sin ver los partidos hasta el final.</p>
+
+  <div class="cf-block">
+    <h2><span class="cf-num">1</span> Las preguntas</h2>
+    <p>Cada test tiene un banco de más de 60 preguntas sobre temas reales: sanidad, vivienda, economía, energía, educación, inmigración y muchos más. Al iniciar, se seleccionan <strong>20 al azar</strong> para que cada sesión sea diferente.</p>
+    <p>Las propuestas están redactadas de forma neutral, sin mencionar ningún partido. No sabes en ningún momento qué partido defiende cada postura.</p>
+  </div>
+
+  <div class="cf-block">
+    <h2><span class="cf-num">2</span> Cómo votas</h2>
+    <p>Para cada propuesta tienes tres opciones:</p>
+    <div class="cf-formula">
+      ✅ <strong>A favor</strong> — Estás de acuerdo con esta medida<br>
+      ❌ <strong>En contra</strong> — No estás de acuerdo<br>
+      🤷 <strong>Me absteng</strong>o — No tienes opinión formada o te da igual
+    </div>
+    <p>La abstención no suma ni resta puntos a ningún partido.</p>
+  </div>
+
+  <div class="cf-block">
+    <h2><span class="cf-num">3</span> Cómo se calcula el resultado</h2>
+    <p>Cada partido tiene una postura asignada para cada pregunta: a favor (+1), en contra (−1) o neutral (0). Cuando tú votas, tu respuesta se compara con la postura de cada partido:</p>
+    <div class="cf-formula">
+      Si <strong>tú y el partido</strong> coincidéis → +3 puntos<br>
+      Si uno está a favor y el otro en contra → −3 puntos<br>
+      Si uno de los dos es neutral → 0 puntos
+    </div>
+    <p>Al final, se suman los puntos de cada partido y se calcula el porcentaje sobre el máximo posible. Ese porcentaje es tu <strong>afinidad</strong>.</p>
+  </div>
+
+  <div class="cf-block">
+    <h2><span class="cf-num">4</span> Las posturas de los partidos</h2>
+    <p>Las posturas están basadas en los programas electorales, votaciones en el Congreso y declaraciones públicas oficiales de cada partido. Son una simplificación orientativa y pueden no reflejar matices internos o posiciones cambiantes.</p>
+    <div class="cf-tag-row">
+      <span class="cf-tag">Programas electorales</span>
+      <span class="cf-tag">Votaciones en el Congreso</span>
+      <span class="cf-tag">Declaraciones oficiales</span>
+      <span class="cf-tag">Actualizado 2025–2026</span>
+    </div>
+  </div>
+
+  <hr class="cf-divider">
+
+  <div class="cf-block">
+    <h2>🔒 Privacidad y anonimato</h2>
+    <p>indecisos.es <strong>no guarda ningún dato personal</strong>. No hay cookies de seguimiento, no hay registro, no hay login. Todo el procesamiento ocurre en tu dispositivo (JavaScript en el navegador) y los resultados no se envían a ningún servidor.</p>
+    <div class="cf-alert">✅ No guardamos tus respuestas · No sabemos quién eres · No hay publicidad ni seguimiento</div>
+  </div>
+
+  <div class="cf-block">
+    <h2>⚠️ Limitaciones importantes</h2>
+    <p>Este test es una <strong>herramienta orientativa</strong>, no un estudio científico. Los resultados no deben interpretarse como una recomendación de voto absoluta, sino como un punto de partida para reflexionar sobre tus ideas.</p>
+    <p>La política tiene muchos más matices de los que caben en 20 preguntas: liderazgo, gestión, coaliciones, contexto local... Te animamos a complementar este resultado con tu propio análisis.</p>
+  </div>
+
+</div>
+
+<footer class="site-footer">
+  <p>indecisos.es · Proyecto sin afiliación política · <a href="aviso-legal.html">Aviso Legal</a> · <a href="como-funciona.html">¿Cómo funciona?</a></p>
+</footer>
+
+</body>
+</html>
